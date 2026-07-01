@@ -1,11 +1,12 @@
 import Header from "@/components/Header";
 import Image from "next/image";
+import { Button } from "antd";
 
 export default function Home() {
   return (
     <>
 
-      <main className="min-h-screen bg-[#faf3dd] flex items-center text-black px-4 py-16 selection:bg-red-200">
+      <main className="min-h-screen flex items-center text-black px-4 py-16 selection:bg-red-200">
         <div className="max-w-5xl mx-auto flex flex-col gap-5 justify-center items-center text-center">
 
           {/* Brand/Logo Section */}
@@ -64,12 +65,14 @@ export default function Home() {
                 className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-black placeholder-gray-500 outline-none focus:border-black transition-colors"
               />
 
-              <button
-                type="submit"
-                className="mt-2 w-full bg-black text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-900 active:scale-[0.99] transition-all"
+              <Button
+                htmlType="submit"
+                block
+                size="large"
+                className="!bg-[#FFC437] !text-black !font-bold !border-none hover:!bg-[#f0b82e] active:!scale-[0.99]"
               >
                 Join Now
-              </button>
+              </Button>
             </div>
           </form>
 

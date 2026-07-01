@@ -1,7 +1,7 @@
 import { Button } from "antd";
-import { login } from "@/app/actions/auth";
+import { register } from "@/app/actions/auth";
 
-export default async function LoginPage({
+export default async function RegisterPage({
     searchParams,
 }: {
     searchParams: Promise<{ error?: string }>;
@@ -11,18 +11,16 @@ export default async function LoginPage({
     return (
         <>
             <h1 className="mb-6 text-center text-2xl font-bold text-gray-900">
-                Sign in
+                Create your account
             </h1>
 
             {params.error ? (
                 <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
-                    {params.error === "CredentialsSignin"
-                        ? "Invalid email or password"
-                        : params.error}
+                    {params.error}
                 </p>
             ) : null}
 
-            <form action={login} className="space-y-4">
+            <form action={register} className="space-y-4">
                 <div>
                     <label
                         htmlFor="email"
@@ -51,6 +49,7 @@ export default async function LoginPage({
                         name="password"
                         type="password"
                         required
+                        minLength={8}
                         className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 outline-none focus:border-black focus:ring-1 focus:ring-black"
                     />
                 </div>
@@ -61,17 +60,17 @@ export default async function LoginPage({
                     type="primary"
                     className="!bg-black !text-white !font-semibold !border-none hover:!bg-gray-800"
                 >
-                    Sign in
+                    Create account
                 </Button>
             </form>
 
             <p className="mt-6 text-center text-sm text-gray-500">
-                Don&apos;t have an account?{" "}
+                Already have an account?{" "}
                 <a
-                    href="/auth/register"
+                    href="/auth"
                     className="font-medium text-black underline underline-offset-2 hover:text-gray-600"
                 >
-                    Register
+                    Sign in
                 </a>
             </p>
         </>
