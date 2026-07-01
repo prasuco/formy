@@ -20,7 +20,7 @@ export default async function DashboardLayout({
                 },
             }}
         >
-            <DashboardShell user={session?.user}>
+            <DashboardShell user={session ?? undefined}>
                 {children}
             </DashboardShell>
         </ConfigProvider>

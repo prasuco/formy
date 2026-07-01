@@ -5,7 +5,7 @@ import { DashboardHome } from "@/components/dashboard/DashboardHome";
 
 export default async function DashboardPage() {
     const session = await auth();
-    if (!session?.user?.id) redirect("/auth");
+    if (!session?.userId) redirect("/auth");
 
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     const thisWeekStart = new Date();
@@ -13,7 +13,7 @@ export default async function DashboardPage() {
     thisWeekStart.setHours(0, 0, 0, 0);
 
     const formIds = await prisma.form.findMany({
-        where: { createdById: session.user.id },
+        where: { createdById: session.userId },
         select: { id: true },
     });
 
@@ -21,7 +21,7 @@ export default async function DashboardPage() {
 
     const [totalForms, totalSubmissions, recentSubmissions, weeklySubmissions] =
         await Promise.all([
-            prisma.form.count({ where: { createdById: session.user.id } }),
+            prisma.form.count({ where: { createdById: session.userId } }),
             formIdList.length > 0
                 ? prisma.submission.count({ where: { formId: { in: formIdList } } })
                 : 0,

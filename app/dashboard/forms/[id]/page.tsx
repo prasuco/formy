@@ -9,7 +9,7 @@ export default async function FormDetailPage({
     params: Promise<{ id: string }>;
 }) {
     const session = await auth();
-    if (!session?.user?.id) redirect("/auth");
+    if (!session?.userId) redirect("/auth");
 
     const { id } = await params;
 
@@ -21,7 +21,7 @@ export default async function FormDetailPage({
         },
     });
 
-    if (!form || form.createdById !== session.user.id) notFound();
+    if (!form || form.createdById !== session.userId) notFound();
 
     return (
         <FormDetails

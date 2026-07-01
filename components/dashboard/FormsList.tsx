@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { Table, Button, Tag } from "antd";
-import { Plus, FileText } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Table, Button, Tag, Popconfirm } from "antd";
+import { Plus, FileText, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { CreateFormDialog } from "@/components/dashboard/CreateFormDialog";
+import { deleteForm } from "@/app/actions/forms";
+import { useRouter } from "next/navigation";
 
 interface FormRow {
     id: string;
@@ -16,6 +18,8 @@ interface FormRow {
 
 export function FormsList({ data }: { data: FormRow[] }) {
     const [open, setOpen] = useState(false);
+    const [pending, startTransition] = useTransition();
+    const router = useRouter();
 
     return (
         <div>
@@ -89,6 +93,28 @@ export function FormsList({ data }: { data: FormRow[] }) {
                         dataIndex: "submissions",
                         key: "submissions",
                         align: "right",
+                    },
+                    {
+                        title: "",
+                        key: "actions",
+                        width: 60,
+                        render: (_: unknown, record: FormRow) => (
+                            <Popconfirm
+                                title="Delete this form?"
+                                description="All submissions will be deleted."
+                                onConfirm={() => startTransition(() => deleteForm(record.id))}
+                                okText="Delete"
+                                okButtonProps={{ danger: true }}
+                            >
+                                <Button
+                                    type="text"
+                                    size="small"
+                                    danger
+                                    icon={<Trash2 size={14} />}
+                                    loading={pending}
+                                />
+                            </Popconfirm>
+                        ),
                     },
                 ]}
             />

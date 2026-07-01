@@ -1,7 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Descriptions, Tag, Button, Empty, Table, message } from "antd";
+import {
+    Card,
+    Descriptions,
+    Tag,
+    Button,
+    Empty,
+    Table,
+    Modal,
+    Form,
+    Input,
+    Select,
+    Popconfirm,
+} from "antd";
 import {
     ArrowLeft,
     Eye,
@@ -9,8 +21,12 @@ import {
     Link as LinkIcon,
     Code2,
     Check,
+    Edit3,
+    Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { updateForm, deleteForm } from "@/app/actions/forms";
+import { useTransition } from "react";
 
 export function FormDetails({
     id,
@@ -30,10 +46,21 @@ export function FormDetails({
     createdAt: Date | null;
 }) {
     const router = useRouter();
+    const [editOpen, setEditOpen] = useState(false);
+    const [pending, startTransition] = useTransition();
+    const [editForm] = Form.useForm();
 
     const publicUrl = slug
         ? `${typeof window !== "undefined" ? window.location.origin : ""}/f/${slug}`
         : null;
+
+    const handleEdit = (values: Record<string, string>) => {
+        const fd = new FormData();
+        fd.set("title", values.title);
+        fd.set("slug", values.slug || "");
+        fd.set("type", values.type);
+        startTransition(() => updateForm(id, fd));
+    };
 
     return (
         <div className="space-y-6">
@@ -60,6 +87,26 @@ export function FormDetails({
                             Preview
                         </Button>
                     )}
+                    <Button
+                        icon={<Edit3 size={16} />}
+                        onClick={() => {
+                            editForm.setFieldsValue({ title, slug: slug ?? "", type });
+                            setEditOpen(true);
+                        }}
+                    >
+                        Edit
+                    </Button>
+                    <Popconfirm
+                        title="Delete this form?"
+                        description="All submissions and data will be permanently deleted."
+                        onConfirm={() => startTransition(() => deleteForm(id))}
+                        okText="Delete"
+                        okButtonProps={{ danger: true }}
+                    >
+                        <Button danger icon={<Trash2 size={16} />}>
+                            Delete
+                        </Button>
+                    </Popconfirm>
                     <Button
                         type="primary"
                         icon={<BarChart3 size={16} />}
@@ -161,6 +208,53 @@ export function FormDetails({
                     </div>
                 )}
             </Card>
+
+            <Modal
+                title="Edit Form"
+                open={editOpen}
+                onCancel={() => setEditOpen(false)}
+                onOk={() => editForm.submit()}
+                confirmLoading={pending}
+                okText="Save"
+                okButtonProps={{
+                    style: { background: "#FFC437", borderColor: "#FFC437", color: "#000" },
+                }}
+            >
+                <Form
+                    form={editForm}
+                    layout="vertical"
+                    onFinish={handleEdit}
+                    autoComplete="off"
+                >
+                    <Form.Item
+                        name="title"
+                        label="Title"
+                        rules={[{ required: true, message: "Enter a title" }]}
+                    >
+                        <Input placeholder="Form title" />
+                    </Form.Item>
+                    <Form.Item
+                        name="slug"
+                        label="Slug"
+                        rules={[
+                            {
+                                pattern: /^[a-z0-9-]*$/,
+                                message: "Only lowercase letters, numbers, and hyphens",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="my-form-slug" />
+                    </Form.Item>
+                    <Form.Item name="type" label="Type" rules={[{ required: true }]}>
+                        <Select
+                            options={[
+                                { value: "NOSCHEMA", label: "No schema" },
+                                { value: "SCHEMA", label: "Schema-based" },
+                            ]}
+                        />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     );
 }

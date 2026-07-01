@@ -5,10 +5,10 @@ import { redirect } from "next/navigation";
 
 export default async function FormsPage() {
     const session = await auth();
-    if (!session?.user?.id) redirect("/auth");
+    if (!session?.userId) redirect("/auth");
 
     const forms = await prisma.form.findMany({
-        where: { createdById: session.user.id },
+        where: { createdById: session.userId },
         include: { _count: { select: { submissions: true } } },
         orderBy: { id: "desc" },
     });

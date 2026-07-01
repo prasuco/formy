@@ -1,4 +1,7 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/auth";
+import { sessionStart } from "@/app/lib/session";
 
-export const auth = () => getServerSession(authOptions);
+export async function auth() {
+    const data = await sessionStart();
+    if (!data?.userId) return null;
+    return data as { userId: string; email: string };
+}

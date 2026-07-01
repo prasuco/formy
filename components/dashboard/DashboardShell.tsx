@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { logout } from "@/app/actions/auth";
 
 const { Sider, Header, Content } = Layout;
 
@@ -107,10 +108,10 @@ export function DashboardShell({
                                     key: "logout",
                                     icon: <LogOut size={14} />,
                                     label: (
-                                        <form action="/api/auth/signout" method="POST">
-                                            <Button type="text" htmlType="submit" className="!w-full !text-left">
+                                        <form action={logout}>
+                                            <button type="submit" className="w-full text-left text-gray-700">
                                                 Sign out
-                                            </Button>
+                                            </button>
                                         </form>
                                     ),
                                 },

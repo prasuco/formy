@@ -9,7 +9,7 @@ export default async function SubmissionsPage({
     params: Promise<{ id: string }>;
 }) {
     const session = await auth();
-    if (!session?.user?.id) redirect("/auth");
+    if (!session?.userId) redirect("/auth");
 
     const { id } = await params;
 
@@ -18,7 +18,7 @@ export default async function SubmissionsPage({
         select: { id: true, title: true, createdById: true },
     });
 
-    if (!form || form.createdById !== session.user.id) notFound();
+    if (!form || form.createdById !== session.userId) notFound();
 
     const submissions = await prisma.submission.findMany({
         where: { formId: id },

@@ -1,8 +1,9 @@
 "use client";
 
-import { Card, Table, Button, Tag, Empty, Tooltip } from "antd";
-import { ArrowLeft, Eye } from "lucide-react";
+import { Card, Table, Button, Tag, Empty, Tooltip, Popconfirm } from "antd";
+import { ArrowLeft, Eye, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { deleteSubmission } from "@/app/actions/forms";
 
 interface SubmissionRow {
     id: string;
@@ -68,20 +69,40 @@ export function FormSubmissions({
         {
             title: "",
             key: "actions",
-            width: 60,
+            width: 100,
             render: (_: unknown, record: SubmissionRow) => (
-                <Tooltip title="View details">
-                    <Button
-                        type="text"
-                        size="small"
-                        icon={<Eye size={14} />}
-                        onClick={() =>
-                            router.push(
-                                `/dashboard/forms/${formId}/submissions/${record.id}`
-                            )
-                        }
-                    />
-                </Tooltip>
+                <div className="flex gap-1">
+                    <Tooltip title="View details">
+                        <Button
+                            type="text"
+                            size="small"
+                            icon={<Eye size={14} />}
+                            onClick={() =>
+                                router.push(
+                                    `/dashboard/forms/${formId}/submissions/${record.id}`
+                                )
+                            }
+                        />
+                    </Tooltip>
+                    <Popconfirm
+                        title="Delete this submission?"
+                        onConfirm={async () => {
+                            await deleteSubmission(record.id);
+                            router.refresh();
+                        }}
+                        okText="Delete"
+                        okButtonProps={{ danger: true }}
+                    >
+                        <Tooltip title="Delete">
+                            <Button
+                                type="text"
+                                size="small"
+                                danger
+                                icon={<Trash2 size={14} />}
+                            />
+                        </Tooltip>
+                    </Popconfirm>
+                </div>
             ),
         },
     ];
