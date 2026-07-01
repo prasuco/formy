@@ -1,11 +1,14 @@
 "use client";
 
-import { Card, Descriptions, Tag, Button, Empty, Table } from "antd";
+import { useState } from "react";
+import { Card, Descriptions, Tag, Button, Empty, Table, message } from "antd";
 import {
     ArrowLeft,
     Eye,
     BarChart3,
     Link as LinkIcon,
+    Code2,
+    Check,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -111,6 +114,8 @@ export function FormDetails({
                 </Card>
             )}
 
+            <IntegrationGuide formId={id} slug={slug} />
+
             <Card title="Schema" className="!shadow-sm">
                 {schema ? (
                     <Table
@@ -157,5 +162,132 @@ export function FormDetails({
                 )}
             </Card>
         </div>
+    );
+}
+
+function IntegrationGuide({
+    formId,
+    slug,
+}: {
+    formId: string;
+    slug: string | null;
+}) {
+    const [htmlCopied, setHtmlCopied] = useState(false);
+    const [jsCopied, setJsCopied] = useState(false);
+
+    const endpoint = "/api/submit";
+    const identifier = slug ?? formId;
+    const identifierField = slug ? "slug" : "formId";
+
+    const htmlSnippet = `<!-- HTML form -->
+<form action="${endpoint}" method="POST">
+    <input type="hidden" name="${identifierField}" value="${identifier}" />
+
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" required />
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" required />
+
+    <button type="submit">Submit</button>
+</form>`;
+
+    const jsSnippet = `// JavaScript fetch
+const formData = new FormData();
+formData.set("${identifierField}", "${identifier}");
+formData.set("name", "John Doe");
+formData.set("email", "john@example.com");
+
+const res = await fetch("${endpoint}", {
+    method: "POST",
+    body: formData,
+});
+
+const result = await res.json();
+// { success: true }`;
+
+    return (
+        <Card
+            title={
+                <span className="flex items-center gap-2">
+                    <Code2 size={16} />
+                    Integration Guide
+                </span>
+            }
+            className="!shadow-sm"
+        >
+            <div className="space-y-6">
+                <div>
+                    <p className="text-sm text-gray-600">
+                        Use this endpoint to accept submissions from your own forms.
+                        Both <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs">application/json</code> and{" "}
+                        <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs">multipart/form-data</code> are accepted.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 className="mb-2 text-sm font-semibold text-gray-700">Endpoint</h4>
+                    <div className="flex items-center gap-2">
+                        <code className="flex-1 rounded bg-gray-50 px-3 py-2 text-sm text-gray-700">
+                            POST {endpoint}
+                        </code>
+                        <Button
+                            size="small"
+                            type="text"
+                            icon={htmlCopied ? <Check size={14} /> : undefined}
+                            onClick={() => {
+                                navigator.clipboard.writeText(endpoint);
+                                setHtmlCopied(true);
+                                setTimeout(() => setHtmlCopied(false), 2000);
+                            }}
+                        >
+                            {htmlCopied ? "Copied" : "Copy"}
+                        </Button>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 className="mb-2 text-sm font-semibold text-gray-700">
+                        HTML form
+                    </h4>
+                    <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-xs text-gray-800">
+                        {htmlSnippet}
+                    </pre>
+                    <Button
+                        size="small"
+                        className="mt-2"
+                        icon={htmlCopied ? <Check size={14} /> : undefined}
+                        onClick={() => {
+                            navigator.clipboard.writeText(htmlSnippet);
+                            setHtmlCopied(true);
+                            setTimeout(() => setHtmlCopied(false), 2000);
+                        }}
+                    >
+                        {htmlCopied ? "Copied" : "Copy HTML"}
+                    </Button>
+                </div>
+
+                <div>
+                    <h4 className="mb-2 text-sm font-semibold text-gray-700">
+                        JavaScript fetch
+                    </h4>
+                    <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-xs text-gray-800">
+                        {jsSnippet}
+                    </pre>
+                    <Button
+                        size="small"
+                        className="mt-2"
+                        icon={jsCopied ? <Check size={14} /> : undefined}
+                        onClick={() => {
+                            navigator.clipboard.writeText(jsSnippet);
+                            setJsCopied(true);
+                            setTimeout(() => setJsCopied(false), 2000);
+                        }}
+                    >
+                        {jsCopied ? "Copied" : "Copy JS"}
+                    </Button>
+                </div>
+            </div>
+        </Card>
     );
 }
