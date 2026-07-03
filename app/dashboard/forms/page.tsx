@@ -17,7 +17,6 @@ export default async function FormsPage() {
         id: f.id,
         title: f.title,
         slug: f.slug,
-        type: f.type,
         submissions: f._count.submissions,
     }));
 

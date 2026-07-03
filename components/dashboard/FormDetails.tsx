@@ -4,19 +4,14 @@ import { useState } from "react";
 import {
     Card,
     Descriptions,
-    Tag,
     Button,
-    Empty,
-    Table,
     Modal,
     Form,
     Input,
-    Select,
     Popconfirm,
 } from "antd";
 import {
     ArrowLeft,
-    Eye,
     BarChart3,
     Link as LinkIcon,
     Code2,
@@ -32,31 +27,22 @@ export function FormDetails({
     id,
     title,
     slug,
-    type,
     submissionCount,
-    schema,
-    createdAt,
 }: {
     id: string;
     title: string;
     slug: string;
-    type: string;
     submissionCount: number;
-    schema: unknown;
-    createdAt: Date | null;
 }) {
     const router = useRouter();
     const [editOpen, setEditOpen] = useState(false);
     const [pending, startTransition] = useTransition();
     const [editForm] = Form.useForm();
 
-    const publicUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/f/${slug}`;
-
     const handleEdit = (values: Record<string, string>) => {
         const fd = new FormData();
         fd.set("title", values.title);
         fd.set("slug", values.slug || "");
-        fd.set("type", values.type);
         startTransition(() => updateForm(id, fd));
     };
 
@@ -80,13 +66,10 @@ export function FormDetails({
                 </div>
 
                 <div className="flex gap-2">
-                    <Button icon={<Eye size={16} />}>
-                        Preview
-                    </Button>
                     <Button
                         icon={<Edit3 size={16} />}
                         onClick={() => {
-                            editForm.setFieldsValue({ title, slug, type });
+                            editForm.setFieldsValue({ title, slug });
                             setEditOpen(true);
                         }}
                     >
@@ -119,11 +102,6 @@ export function FormDetails({
                     classNames={{ label: "!text-gray-500 !font-normal" }}
                 >
                     <Descriptions.Item label="Title">{title}</Descriptions.Item>
-                    <Descriptions.Item label="Type">
-                        <Tag color={type === "SCHEMA" ? "blue" : "default"}>
-                            {type === "SCHEMA" ? "Schema-based" : "No schema"}
-                        </Tag>
-                    </Descriptions.Item>
                     <Descriptions.Item label="Slug">
                         <code className="rounded bg-gray-100 px-2 py-0.5 text-xs">
                             {slug}
@@ -135,16 +113,20 @@ export function FormDetails({
                 </Descriptions>
             </Card>
 
-            <Card title="Public URL" className="!shadow-sm">
+            <Card title="Submit Endpoint" className="!shadow-sm">
                 <div className="flex items-center gap-2">
                     <LinkIcon size={16} className="text-gray-400" />
                     <code className="flex-1 rounded bg-gray-50 px-3 py-2 text-sm text-gray-700">
-                        {publicUrl}
+                        POST /api/submit (slug: {slug})
                     </code>
                     <Button
                         type="primary"
                         size="small"
-                        onClick={() => navigator.clipboard.writeText(publicUrl)}
+                        onClick={() =>
+                            navigator.clipboard.writeText(
+                                `${typeof window !== "undefined" ? window.location.origin : ""}/api/submit`
+                            )
+                        }
                     >
                         Copy
                     </Button>
@@ -152,52 +134,6 @@ export function FormDetails({
             </Card>
 
             <IntegrationGuide slug={slug} />
-
-            <Card title="Schema" className="!shadow-sm">
-                {schema ? (
-                    <Table
-                        dataSource={
-                            Array.isArray(schema)
-                                ? (schema as Record<string, unknown>[])
-                                : []
-                        }
-                        rowKey="id"
-                        pagination={false}
-                        size="small"
-                        columns={[
-                            {
-                                title: "Field",
-                                dataIndex: "label",
-                                key: "label",
-                            },
-                            {
-                                title: "Type",
-                                dataIndex: "type",
-                                key: "type",
-                                render: (t: string) => <Tag>{t}</Tag>,
-                            },
-                            {
-                                title: "Required",
-                                dataIndex: "required",
-                                key: "required",
-                                render: (r: boolean) =>
-                                    r ? (
-                                        <span className="text-red-500">Yes</span>
-                                    ) : (
-                                        <span className="text-gray-400">No</span>
-                                    ),
-                            },
-                        ]}
-                    />
-                ) : (
-                    <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-                        <Empty
-                            image={Empty.PRESENTED_IMAGE_SIMPLE}
-                            description="No schema defined"
-                        />
-                    </div>
-                )}
-            </Card>
 
             <Modal
                 title="Edit Form"
@@ -235,35 +171,22 @@ export function FormDetails({
                     >
                         <Input placeholder="my-form-slug" />
                     </Form.Item>
-                    <Form.Item name="type" label="Type" rules={[{ required: true }]}>
-                        <Select
-                            options={[
-                                { value: "NOSCHEMA", label: "No schema" },
-                                { value: "SCHEMA", label: "Schema-based" },
-                            ]}
-                        />
-                    </Form.Item>
                 </Form>
             </Modal>
         </div>
     );
 }
 
-function IntegrationGuide({
-    slug,
-}: {
-    slug: string;
-}) {
+function IntegrationGuide({ slug }: { slug: string }) {
     const [htmlCopied, setHtmlCopied] = useState(false);
     const [jsCopied, setJsCopied] = useState(false);
+    const [reactCopied, setReactCopied] = useState(false);
+    const [vueCopied, setVueCopied] = useState(false);
 
     const endpoint = "/api/submit";
-    const identifier = slug;
-    const identifierField = "slug";
-
     const htmlSnippet = `<!-- HTML form -->
-<form action="${endpoint}" method="POST">
-    <input type="hidden" name="${identifierField}" value="${identifier}" />
+<form action="${endpoint}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="slug" value="${slug}" />
 
     <label for="name">Name</label>
     <input type="text" name="name" id="name" required />
@@ -276,7 +199,7 @@ function IntegrationGuide({
 
     const jsSnippet = `// JavaScript fetch
 const formData = new FormData();
-formData.set("${identifierField}", "${identifier}");
+formData.set("slug", "${slug}");
 formData.set("name", "John Doe");
 formData.set("email", "john@example.com");
 
@@ -287,6 +210,80 @@ const res = await fetch("${endpoint}", {
 
 const result = await res.json();
 // { success: true }`;
+
+    const reactSnippet = `// React component
+import { useState } from "react";
+
+export function MyForm() {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    const fd = new FormData(e.target);
+    fd.set("slug", "${slug}");
+
+    const res = await fetch("${endpoint}", {
+      method: "POST",
+      body: fd,
+    });
+
+    if (res.ok) alert("Submitted!");
+    setSubmitting(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="name" placeholder="Name" required />
+      <input name="email" type="email" placeholder="Email" required />
+      <button type="submit" disabled={submitting}>
+        {submitting ? "Sending..." : "Submit"}
+      </button>
+    </form>
+  );
+}`;
+
+    const vueSnippet = `<!-- Vue 3 component -->
+<template>
+  <form @submit.prevent="handleSubmit">
+    <input name="name" placeholder="Name" required />
+    <input name="email" type="email" placeholder="Email" required />
+    <button :disabled="submitting">
+      {{ submitting ? "Sending..." : "Submit" }}
+    </button>
+  </form>
+</template>
+
+<script setup>
+import { ref } from "vue";
+
+const submitting = ref(false);
+
+async function handleSubmit(e) {
+  submitting.value = true;
+  const fd = new FormData(e.target);
+  fd.set("slug", "${slug}");
+
+  const res = await fetch("${endpoint}", { method: "POST", body: fd });
+  if (res.ok) alert("Submitted!");
+  submitting.value = false;
+}
+</script>`;
+
+    const jsonSnippet = `// JSON API — POST with application/json
+const res = await fetch("${endpoint}", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    "slug": "${slug}",
+    "name": "John Doe",
+    "email": "john@example.com"
+  })
+});
+
+const result = await res.json();
+// 201: { success: true }`;
 
     return (
         <Card
@@ -300,10 +297,17 @@ const result = await res.json();
         >
             <div className="space-y-6">
                 <div>
-                    <p className="text-sm text-gray-600">
-                        Use this endpoint to accept submissions from your own forms.
-                        Both <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs">application/json</code> and{" "}
-                        <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs">multipart/form-data</code> are accepted.
+                    <p className="mb-1 text-sm text-gray-600">
+                        Submit data from your own frontend. CORS is enabled for all origins.
+                        Accepts{" "}
+                        <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs">
+                            multipart/form-data
+                        </code>{" "}
+                        and{" "}
+                        <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs">
+                            application/json
+                        </code>
+                        .
                     </p>
                 </div>
 
@@ -329,9 +333,26 @@ const result = await res.json();
                 </div>
 
                 <div>
-                    <h4 className="mb-2 text-sm font-semibold text-gray-700">
-                        HTML form
-                    </h4>
+                    <h4 className="mb-2 text-sm font-semibold text-gray-700">JSON API</h4>
+                    <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-xs text-gray-800">
+                        {jsonSnippet}
+                    </pre>
+                    <Button
+                        size="small"
+                        className="mt-2"
+                        icon={jsCopied ? <Check size={14} /> : undefined}
+                        onClick={() => {
+                            navigator.clipboard.writeText(jsonSnippet);
+                            setJsCopied(true);
+                            setTimeout(() => setJsCopied(false), 2000);
+                        }}
+                    >
+                        {jsCopied ? "Copied" : "Copy JSON"}
+                    </Button>
+                </div>
+
+                <div>
+                    <h4 className="mb-2 text-sm font-semibold text-gray-700">HTML form</h4>
                     <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-xs text-gray-800">
                         {htmlSnippet}
                     </pre>
@@ -350,23 +371,40 @@ const result = await res.json();
                 </div>
 
                 <div>
-                    <h4 className="mb-2 text-sm font-semibold text-gray-700">
-                        JavaScript fetch
-                    </h4>
+                    <h4 className="mb-2 text-sm font-semibold text-gray-700">React component</h4>
                     <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-xs text-gray-800">
-                        {jsSnippet}
+                        {reactSnippet}
                     </pre>
                     <Button
                         size="small"
                         className="mt-2"
-                        icon={jsCopied ? <Check size={14} /> : undefined}
+                        icon={reactCopied ? <Check size={14} /> : undefined}
                         onClick={() => {
-                            navigator.clipboard.writeText(jsSnippet);
-                            setJsCopied(true);
-                            setTimeout(() => setJsCopied(false), 2000);
+                            navigator.clipboard.writeText(reactSnippet);
+                            setReactCopied(true);
+                            setTimeout(() => setReactCopied(false), 2000);
                         }}
                     >
-                        {jsCopied ? "Copied" : "Copy JS"}
+                        {reactCopied ? "Copied" : "Copy React"}
+                    </Button>
+                </div>
+
+                <div>
+                    <h4 className="mb-2 text-sm font-semibold text-gray-700">Vue 3 component</h4>
+                    <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-xs text-gray-800">
+                        {vueSnippet}
+                    </pre>
+                    <Button
+                        size="small"
+                        className="mt-2"
+                        icon={vueCopied ? <Check size={14} /> : undefined}
+                        onClick={() => {
+                            navigator.clipboard.writeText(vueSnippet);
+                            setVueCopied(true);
+                            setTimeout(() => setVueCopied(false), 2000);
+                        }}
+                    >
+                        {vueCopied ? "Copied" : "Copy Vue"}
                     </Button>
                 </div>
             </div>

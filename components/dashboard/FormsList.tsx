@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Table, Button, Tag, Popconfirm } from "antd";
+import { Table, Button, Popconfirm } from "antd";
 import { Plus, FileText, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { CreateFormDialog } from "@/components/dashboard/CreateFormDialog";
@@ -12,7 +12,6 @@ interface FormRow {
     id: string;
     title: string;
     slug: string;
-    type: string;
     submissions: number;
 }
 
@@ -73,16 +72,6 @@ export function FormsList({ data }: { data: FormRow[] }) {
                             <code className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
                                 {slug}
                             </code>
-                        ),
-                    },
-                    {
-                        title: "Type",
-                        dataIndex: "type",
-                        key: "type",
-                        render: (type: string) => (
-                            <Tag color={type === "SCHEMA" ? "blue" : "default"}>
-                                {type}
-                            </Tag>
                         ),
                     },
                     {

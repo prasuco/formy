@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+};
+
+export async function OPTIONS() {
+    return NextResponse.json({}, { headers: corsHeaders });
+}
 
 export async function POST(request: NextRequest) {
     let body: Record<string, unknown>;
@@ -20,7 +29,7 @@ export async function POST(request: NextRequest) {
     if (!formId && !slug) {
         return NextResponse.json(
             { error: "formId or slug is required" },
-            { status: 400 }
+            { status: 400, headers: corsHeaders }
         );
     }
 
@@ -31,7 +40,7 @@ export async function POST(request: NextRequest) {
     if (!form) {
         return NextResponse.json(
             { error: "Form not found" },
-            { status: 404 }
+            { status: 404, headers: corsHeaders }
         );
     }
 
@@ -47,7 +56,7 @@ export async function POST(request: NextRequest) {
     if (contentType.includes("application/json")) {
         return NextResponse.json(
             { success: true },
-            { status: 201 }
+            { status: 201, headers: corsHeaders }
         );
     }
 
@@ -56,6 +65,5 @@ export async function POST(request: NextRequest) {
     const redirectUrl = new URL("/success", `${proto}://${host}`);
     redirectUrl.searchParams.set("title", form.title);
 
-
-    return NextResponse.redirect(redirectUrl.toString(), 303);
+    return NextResponse.redirect(redirectUrl.toString(), { status: 303, headers: corsHeaders });
 }

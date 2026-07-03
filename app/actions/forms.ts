@@ -28,7 +28,6 @@ export async function createForm(formData: FormData) {
         data: {
             title: title.trim(),
             slug,
-            type: "NOSCHEMA",
             createdById: session.userId,
         },
     });
@@ -41,11 +40,9 @@ export async function updateForm(formId: string, formData: FormData) {
 
     const title = formData.get("title") as string;
     const slug = (formData.get("slug") as string)?.trim();
-    const type = formData.get("type");
 
     const data: Record<string, unknown> = {};
     if (title?.trim()) data.title = title.trim();
-    if (type === "SCHEMA" || type === "NOSCHEMA") data.type = type;
     if (slug) data.slug = await ensureSlugUnique(slug, formId);
 
     await prisma.form.update({ where: { id: formId }, data });
@@ -53,10 +50,9 @@ export async function updateForm(formId: string, formData: FormData) {
 }
 
 export async function deleteForm(formId: string) {
-    const form = await getOwnedForm(formId);
+    await getOwnedForm(formId);
 
     await prisma.submission.deleteMany({ where: { formId } });
-    await prisma.formSchema.deleteMany({ where: { formId } });
     await prisma.form.delete({ where: { id: formId } });
 
     redirect("/dashboard/forms");
