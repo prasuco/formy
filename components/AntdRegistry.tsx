@@ -5,14 +5,14 @@ import { useServerInsertedHTML } from "next/navigation";
 import { useState } from "react";
 
 export function AntdRegistry({ children }: { children: React.ReactNode }) {
-    const [cache] = useState(() => createCache());
+  const [cache] = useState(() => createCache());
 
-    useServerInsertedHTML(() => (
-        <style
-            id="antd-cssinjs"
-            dangerouslySetInnerHTML={{ __html: extractStyle(cache) }}
-        />
-    ));
+  useServerInsertedHTML(() => (
+    <style
+      id="antd-cssinjs"
+      dangerouslySetInnerHTML={{ __html: extractStyle(cache) }}
+    />
+  ));
 
-    return <StyleProvider cache={cache}>{children}</StyleProvider>;
+  return <StyleProvider cache={cache}>{children}</StyleProvider>;
 }

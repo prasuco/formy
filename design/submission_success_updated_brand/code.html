@@ -1,230 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      @keyframes success-pop {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
         }
-        @keyframes success-pop {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+        50% {
+          transform: scale(1.1);
         }
-        @keyframes confetti-fall {
-            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
-        .animate-success { animation: success-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-        .confetti {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            border-radius: 2px;
-            pointer-events: none;
+      }
+      @keyframes confetti-fall {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 1;
         }
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      .animate-success {
+        animation: success-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+      .confetti {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        pointer-events: none;
+      }
     </style>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-primary-fixed": "#000000",
-                        "tertiary": "#006877",
-                        "on-background": "#1c1b1b",
-                        "on-primary": "#000000",
-                        "inverse-primary": "#f8bd30",
-                        "tertiary-container": "#2ce0fe",
-                        "on-secondary-fixed-variant": "#384760",
-                        "on-secondary": "#ffffff",
-                        "on-primary-container": "#000000",
-                        "primary-container": "#FFFF00",
-                        "secondary": "#4f5f79",
-                        "surface-container-high": "#ebe7e7",
-                        "surface-dim": "#dcd9d9",
-                        "primary-fixed": "#FFFF00",
-                        "surface-bright": "#fcf9f8",
-                        "inverse-surface": "#313030",
-                        "error-container": "#ffdad6",
-                        "on-secondary-fixed": "#0a1c32",
-                        "on-error": "#ffffff",
-                        "on-primary-fixed-variant": "#000000",
-                        "on-surface-variant": "#4f4634",
-                        "outline-variant": "#d3c5ad",
-                        "primary-fixed-dim": "#f8bd30",
-                        "error": "#ba1a1a",
-                        "on-tertiary-fixed": "#001f25",
-                        "on-secondary-container": "#53637d",
-                        "secondary-container": "#d0e0ff",
-                        "surface-container-low": "#f6f3f2",
-                        "secondary-fixed-dim": "#b7c7e5",
-                        "accent-teal": "#00A4A6",
-                        "border-strong": "#111111",
-                        "on-surface": "#1c1b1b",
-                        "on-tertiary-container": "#00606e",
-                        "on-tertiary-fixed-variant": "#004e5a",
-                        "border-muted": "#E5E7EB",
-                        "outline": "#817661",
-                        "tertiary-fixed-dim": "#1ad9f7",
-                        "surface-tint": "#FFFF00",
-                        "inverse-on-surface": "#f3f0ef",
-                        "surface-container": "#f0edec",
-                        "tertiary-fixed": "#a5eeff",
-                        "destructive": "#EA4335",
-                        "surface-container-highest": "#e5e2e1",
-                        "surface": "#fcf9f8",
-                        "on-tertiary": "#ffffff",
-                        "surface-variant": "#e5e2e1",
-                        "on-error-container": "#93000a",
-                        "surface-container-lowest": "#ffffff",
-                        "background": "#fcf9f8",
-                        "primary": "#FFFF00",
-                        "surface-subtle": "#F9FAFB",
-                        "secondary-fixed": "#d4e3ff"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "margin-mobile": "16px",
-                        "container-max": "1200px",
-                        "base": "4px",
-                        "gutter": "24px",
-                        "margin-desktop": "40px"
-                    },
-                    "fontFamily": {
-                        "headline-lg-mobile": ["Geist"],
-                        "body-sm": ["Geist"],
-                        "headline-lg": ["Geist"],
-                        "body-lg": ["Geist"],
-                        "label-caps": ["JetBrains Mono"],
-                        "headline-md": ["Geist"],
-                        "code-md": ["JetBrains Mono"],
-                        "code-sm": ["JetBrains Mono"],
-                        "display": ["Geist"]
-                    },
-                    "fontSize": {
-                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
-                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
-                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
-                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                        "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
-                        "code-md": ["14px", {"lineHeight": "1.6", "fontWeight": "450"}],
-                        "code-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "450"}],
-                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
-                    }
-                },
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#000000",
+              tertiary: "#006877",
+              "on-background": "#1c1b1b",
+              "on-primary": "#000000",
+              "inverse-primary": "#f8bd30",
+              "tertiary-container": "#2ce0fe",
+              "on-secondary-fixed-variant": "#384760",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#000000",
+              "primary-container": "#FFFF00",
+              secondary: "#4f5f79",
+              "surface-container-high": "#ebe7e7",
+              "surface-dim": "#dcd9d9",
+              "primary-fixed": "#FFFF00",
+              "surface-bright": "#fcf9f8",
+              "inverse-surface": "#313030",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed": "#0a1c32",
+              "on-error": "#ffffff",
+              "on-primary-fixed-variant": "#000000",
+              "on-surface-variant": "#4f4634",
+              "outline-variant": "#d3c5ad",
+              "primary-fixed-dim": "#f8bd30",
+              error: "#ba1a1a",
+              "on-tertiary-fixed": "#001f25",
+              "on-secondary-container": "#53637d",
+              "secondary-container": "#d0e0ff",
+              "surface-container-low": "#f6f3f2",
+              "secondary-fixed-dim": "#b7c7e5",
+              "accent-teal": "#00A4A6",
+              "border-strong": "#111111",
+              "on-surface": "#1c1b1b",
+              "on-tertiary-container": "#00606e",
+              "on-tertiary-fixed-variant": "#004e5a",
+              "border-muted": "#E5E7EB",
+              outline: "#817661",
+              "tertiary-fixed-dim": "#1ad9f7",
+              "surface-tint": "#FFFF00",
+              "inverse-on-surface": "#f3f0ef",
+              "surface-container": "#f0edec",
+              "tertiary-fixed": "#a5eeff",
+              destructive: "#EA4335",
+              "surface-container-highest": "#e5e2e1",
+              surface: "#fcf9f8",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e5e2e1",
+              "on-error-container": "#93000a",
+              "surface-container-lowest": "#ffffff",
+              background: "#fcf9f8",
+              primary: "#FFFF00",
+              "surface-subtle": "#F9FAFB",
+              "secondary-fixed": "#d4e3ff",
             },
-        }
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "margin-mobile": "16px",
+              "container-max": "1200px",
+              base: "4px",
+              gutter: "24px",
+              "margin-desktop": "40px",
+            },
+            fontFamily: {
+              "headline-lg-mobile": ["Geist"],
+              "body-sm": ["Geist"],
+              "headline-lg": ["Geist"],
+              "body-lg": ["Geist"],
+              "label-caps": ["JetBrains Mono"],
+              "headline-md": ["Geist"],
+              "code-md": ["JetBrains Mono"],
+              "code-sm": ["JetBrains Mono"],
+              display: ["Geist"],
+            },
+            fontSize: {
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "1.2", fontWeight: "600" },
+              ],
+              "body-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-lg": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+              "label-caps": [
+                "11px",
+                { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "600" },
+              ],
+              "headline-md": ["20px", { lineHeight: "1.4", fontWeight: "600" }],
+              "code-md": ["14px", { lineHeight: "1.6", fontWeight: "450" }],
+              "code-sm": ["12px", { lineHeight: "1.4", fontWeight: "450" }],
+              display: [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="bg-background font-body-lg text-on-background overflow-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
-<div class="fixed inset-0 pointer-events-none z-0" id="confetti-container"></div>
-<main class="relative z-10 min-h-screen flex items-center justify-center px-margin-mobile md:px-margin-desktop">
-<div class="max-w-[480px] w-full text-center space-y-gutter">
-<div class="relative inline-block">
-<div class="animate-success flex items-center justify-center w-24 h-24 rounded-full bg-primary-container text-on-primary shadow-xl shadow-primary/10">
-<span class="material-symbols-outlined !text-[48px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-</div>
-<div class="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-inverse-surface border-2 border-surface animate-bounce delay-100 flex items-center justify-center">
-<span class="material-symbols-outlined !text-[16px] text-surface-bright" data-icon="celebration">celebration</span>
-</div>
-</div>
-<div class="space-y-base">
-<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Submission received!</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[360px] mx-auto leading-relaxed">
-                    Your response for <span class="font-bold text-on-surface">'Contact Form'</span> has been submitted successfully. Thank you for your time.
-                </p>
-</div>
-<div class="pt-base">
-<a class="group relative inline-flex items-center justify-center gap-2 bg-primary px-8 py-4 rounded-xl text-on-primary font-headline-md text-headline-md transition-all duration-300 hover:brightness-110 active:scale-[0.98] shadow-md hover:shadow-lg hover:shadow-primary/20 border-b-4 border-black/10" href="/">
-<span class="material-symbols-outlined transition-transform group-hover:-translate-x-1" data-icon="arrow_back">arrow_back</span>
-                    Back to Formy
-                </a>
-</div>
-<div class="pt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-<div class="p-4 rounded-xl border border-border-muted bg-surface-container-lowest flex items-center gap-4 transition-colors hover:bg-surface-container-low group">
-<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center group-hover:bg-primary-fixed">
-<span class="material-symbols-outlined text-secondary" data-icon="mail">mail</span>
-</div>
-<div class="text-left">
-<p class="font-label-caps text-label-caps text-on-surface-variant">NOTIFICATION</p>
-<p class="font-body-sm text-body-sm text-on-surface">Email copy sent</p>
-</div>
-</div>
-<div class="p-4 rounded-xl border border-border-muted bg-surface-container-lowest flex items-center gap-4 transition-colors hover:bg-surface-container-low group">
-<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center group-hover:bg-primary-fixed">
-<span class="material-symbols-outlined text-secondary" data-icon="history">history</span>
-</div>
-<div class="text-left">
-<p class="font-label-caps text-label-caps text-on-surface-variant">LOGS</p>
-<p class="font-body-sm text-body-sm text-on-surface">Stored in Dashboard</p>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-center gap-8 pt-8 opacity-40">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px]" data-icon="verified_user">verified_user</span>
-<span class="font-label-caps text-label-caps">SECURE</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px]" data-icon="cloud_done">cloud_done</span>
-<span class="font-label-caps text-label-caps">ENCRYPTED</span>
-</div>
-</div>
-</div>
-</main>
-<div class="fixed bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-surface-container-low to-transparent -z-10"></div>
-<script>
-        function createConfetti() {
-            const container = document.getElementById('confetti-container');
-            const colors = ['#FFFF00', '#000000', '#795900', '#006877', '#ffc437'];
-            const count = 50;
+  </head>
+  <body
+    class="bg-background font-body-lg text-on-background overflow-hidden selection:bg-primary-fixed selection:text-on-primary-fixed"
+  >
+    <div
+      class="fixed inset-0 pointer-events-none z-0"
+      id="confetti-container"
+    ></div>
+    <main
+      class="relative z-10 min-h-screen flex items-center justify-center px-margin-mobile md:px-margin-desktop"
+    >
+      <div class="max-w-[480px] w-full text-center space-y-gutter">
+        <div class="relative inline-block">
+          <div
+            class="animate-success flex items-center justify-center w-24 h-24 rounded-full bg-primary-container text-on-primary shadow-xl shadow-primary/10"
+          >
+            <span
+              class="material-symbols-outlined !text-[48px]"
+              data-icon="check_circle"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >check_circle</span
+            >
+          </div>
+          <div
+            class="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-inverse-surface border-2 border-surface animate-bounce delay-100 flex items-center justify-center"
+          >
+            <span
+              class="material-symbols-outlined !text-[16px] text-surface-bright"
+              data-icon="celebration"
+              >celebration</span
+            >
+          </div>
+        </div>
+        <div class="space-y-base">
+          <h1
+            class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
+          >
+            Submission received!
+          </h1>
+          <p
+            class="font-body-lg text-body-lg text-on-surface-variant max-w-[360px] mx-auto leading-relaxed"
+          >
+            Your response for
+            <span class="font-bold text-on-surface">'Contact Form'</span> has
+            been submitted successfully. Thank you for your time.
+          </p>
+        </div>
+        <div class="pt-base">
+          <a
+            class="group relative inline-flex items-center justify-center gap-2 bg-primary px-8 py-4 rounded-xl text-on-primary font-headline-md text-headline-md transition-all duration-300 hover:brightness-110 active:scale-[0.98] shadow-md hover:shadow-lg hover:shadow-primary/20 border-b-4 border-black/10"
+            href="/"
+          >
+            <span
+              class="material-symbols-outlined transition-transform group-hover:-translate-x-1"
+              data-icon="arrow_back"
+              >arrow_back</span
+            >
+            Back to Formy
+          </a>
+        </div>
+        <div class="pt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            class="p-4 rounded-xl border border-border-muted bg-surface-container-lowest flex items-center gap-4 transition-colors hover:bg-surface-container-low group"
+          >
+            <div
+              class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center group-hover:bg-primary-fixed"
+            >
+              <span
+                class="material-symbols-outlined text-secondary"
+                data-icon="mail"
+                >mail</span
+              >
+            </div>
+            <div class="text-left">
+              <p
+                class="font-label-caps text-label-caps text-on-surface-variant"
+              >
+                NOTIFICATION
+              </p>
+              <p class="font-body-sm text-body-sm text-on-surface">
+                Email copy sent
+              </p>
+            </div>
+          </div>
+          <div
+            class="p-4 rounded-xl border border-border-muted bg-surface-container-lowest flex items-center gap-4 transition-colors hover:bg-surface-container-low group"
+          >
+            <div
+              class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center group-hover:bg-primary-fixed"
+            >
+              <span
+                class="material-symbols-outlined text-secondary"
+                data-icon="history"
+                >history</span
+              >
+            </div>
+            <div class="text-left">
+              <p
+                class="font-label-caps text-label-caps text-on-surface-variant"
+              >
+                LOGS
+              </p>
+              <p class="font-body-sm text-body-sm text-on-surface">
+                Stored in Dashboard
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-8 pt-8 opacity-40">
+          <div class="flex items-center gap-2">
+            <span
+              class="material-symbols-outlined text-[16px]"
+              data-icon="verified_user"
+              >verified_user</span
+            >
+            <span class="font-label-caps text-label-caps">SECURE</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span
+              class="material-symbols-outlined text-[16px]"
+              data-icon="cloud_done"
+              >cloud_done</span
+            >
+            <span class="font-label-caps text-label-caps">ENCRYPTED</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div
+      class="fixed bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-surface-container-low to-transparent -z-10"
+    ></div>
+    <script>
+      function createConfetti() {
+        const container = document.getElementById("confetti-container");
+        const colors = ["#FFFF00", "#000000", "#795900", "#006877", "#ffc437"];
+        const count = 50;
 
-            for (let i = 0; i < count; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.backgroundColor = color;
-                
-                const startX = Math.random() * 100;
-                confetti.style.left = startX + 'vw';
-                
-                const size = Math.random() * 8 + 4;
-                confetti.style.width = size + 'px';
-                confetti.style.height = size + 'px';
-                
-                const duration = Math.random() * 2 + 3;
-                const delay = Math.random() * 2;
-                confetti.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
-                
-                container.appendChild(confetti);
+        for (let i = 0; i < count; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
 
-                confetti.addEventListener('animationend', () => {
-                    confetti.remove();
-                });
-            }
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.backgroundColor = color;
+
+          const startX = Math.random() * 100;
+          confetti.style.left = startX + "vw";
+
+          const size = Math.random() * 8 + 4;
+          confetti.style.width = size + "px";
+          confetti.style.height = size + "px";
+
+          const duration = Math.random() * 2 + 3;
+          const delay = Math.random() * 2;
+          confetti.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
+
+          container.appendChild(confetti);
+
+          confetti.addEventListener("animationend", () => {
+            confetti.remove();
+          });
         }
+      }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(createConfetti, 300);
-            
-            // Re-trigger some confetti on button hover for extra "magic"
-            const button = document.querySelector('a');
-            button.addEventListener('mouseenter', () => {
-                if (Math.random() > 0.7) createConfetti();
-            });
+      window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(createConfetti, 300);
+
+        // Re-trigger some confetti on button hover for extra "magic"
+        const button = document.querySelector("a");
+        button.addEventListener("mouseenter", () => {
+          if (Math.random() > 0.7) createConfetti();
         });
+      });
     </script>
-</body></html>
+  </body>
+</html>

@@ -23,17 +23,17 @@ Formy is a form-backend-as-a-service (form-BaaS). Create a form, get a public CO
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
+| Layer      | Technology                                                                       |
+| ---------- | -------------------------------------------------------------------------------- |
+| Framework  | [Next.js 16](https://nextjs.org/) (App Router)                                   |
 | UI Library | [Ant Design 6](https://ant.design/) + [Tailwind CSS 4](https://tailwindcss.com/) |
-| Components | [shadcn/ui](https://ui.shadcn.com/) + [Base UI](https://base-ui.com/) |
-| Database | PostgreSQL via [Prisma 7](https://www.prisma.io/) |
-| Auth | Custom JWT (jose) + bcryptjs |
-| Email | [React Email](https://react.email/) + [Resend](https://resend.com/) |
-| Fonts | Geist Sans + Geist Mono (via next/font) |
-| Icons | [Lucide React](https://lucide.dev/) |
-| State | Zustand + nuqs (URL query state) |
+| Components | [shadcn/ui](https://ui.shadcn.com/) + [Base UI](https://base-ui.com/)            |
+| Database   | PostgreSQL via [Prisma 7](https://www.prisma.io/)                                |
+| Auth       | Custom JWT (jose) + bcryptjs                                                     |
+| Email      | [React Email](https://react.email/) + [Resend](https://resend.com/)              |
+| Fonts      | Geist Sans + Geist Mono (via next/font)                                          |
+| Icons      | [Lucide React](https://lucide.dev/)                                              |
+| State      | Zustand + nuqs (URL query state)                                                 |
 
 ---
 
@@ -68,13 +68,13 @@ pnpm dev
 
 ### Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `NEXTAUTH_URL` | Application URL (e.g. `http://localhost:3000`) |
-| `NEXTAUTH_SECRET` | JWT signing secret (min 32 chars) |
-| `RESEND_KEY` | Resend API key (for email notifications) |
-| `RESEND_FROM` | Sender email address for notifications |
+| Variable          | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| `DATABASE_URL`    | PostgreSQL connection string                   |
+| `NEXTAUTH_URL`    | Application URL (e.g. `http://localhost:3000`) |
+| `NEXTAUTH_SECRET` | JWT signing secret (min 32 chars)              |
+| `RESEND_KEY`      | Resend API key (for email notifications)       |
+| `RESEND_FROM`     | Sender email address for notifications         |
 
 ---
 
@@ -98,23 +98,24 @@ Or use a regular HTML form:
 
 ```html
 <form action="https://your-app.com/api/submit" method="POST">
-  <input type="hidden" name="slug" value="your-form-slug">
-  <input name="name" placeholder="Your Name">
-  <input name="email" type="email" placeholder="Email">
+  <input type="hidden" name="slug" value="your-form-slug" />
+  <input name="name" placeholder="Your Name" />
+  <input name="email" type="email" placeholder="Email" />
   <button type="submit">Submit</button>
 </form>
 ```
 
 **Parameters:**
 
-| Param | Type | Required | Description |
-|-------|------|----------|-------------|
-| `slug` | string | Yes* | Form slug (from dashboard) |
-| `formId` | string | Yes* | Form ID (alternative to slug) |
+| Param    | Type   | Required | Description                   |
+| -------- | ------ | -------- | ----------------------------- |
+| `slug`   | string | Yes*     | Form slug (from dashboard)    |
+| `formId` | string | Yes*     | Form ID (alternative to slug) |
 
 *Either `slug` or `formId` must be provided.
 
 **Responses:**
+
 - `201` — `{ "success": true }` (JSON request)
 - `303` — Redirects to `/success` page (form-data request)
 - `400` — `{ "error": "formId or slug is required" }`
@@ -153,11 +154,11 @@ prisma/
 
 ## Screenshots
 
-| Page | Preview |
-|------|---------|
-| Landing | (add screenshot) |
-| Login | (add screenshot) |
-| Dashboard | (add screenshot) |
+| Page        | Preview          |
+| ----------- | ---------------- |
+| Landing     | (add screenshot) |
+| Login       | (add screenshot) |
+| Dashboard   | (add screenshot) |
 | Form Detail | (add screenshot) |
 | Integration | (add screenshot) |
 

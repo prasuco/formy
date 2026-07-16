@@ -156,7 +156,12 @@
   }
 
   /* Headings */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply text-on-surface;
   }
 
@@ -181,7 +186,9 @@
     @apply text-on-surface;
   }
 
-  p.text-sm, p.muted, p.\!text-sm {
+  p.text-sm,
+  p.muted,
+  p.\!text-sm {
     color: var(--on-surface-variant);
   }
 
@@ -190,7 +197,9 @@
     @apply text-on-surface hover:text-primary transition-colors;
   }
 
-  a:has(button), a:has(img), a:has(svg) {
+  a:has(button),
+  a:has(img),
+  a:has(svg) {
     @apply no-underline;
   }
 
@@ -260,12 +269,15 @@
   }
 
   /* Form elements */
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     font-family: var(--font-sans);
     color: var(--on-surface);
   }
 
-  input::placeholder, textarea::placeholder {
+  input::placeholder,
+  textarea::placeholder {
     color: var(--on-surface-variant);
     opacity: 0.6;
   }
@@ -315,6 +327,8 @@
     line-height: 1.6;
   }
   .stat-card-shadow {
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+    box-shadow:
+      0 1px 3px 0 rgb(0 0 0 / 0.06),
+      0 1px 2px -1px rgb(0 0 0 / 0.06);
   }
 }

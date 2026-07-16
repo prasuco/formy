@@ -1,331 +1,600 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Formy Dashboard</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Formy Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
-            "colors": {
-                    "brand-yellow": "#FFFF00",
-                    "on-primary-fixed": "#261a00",
-                    "tertiary": "#006877",
-                    "on-background": "#1c1b1b",
-                    "on-primary": "#ffffff",
-                    "inverse-primary": "#f8bd30",
-                    "tertiary-container": "#2ce0fe",
-                    "on-secondary-fixed-variant": "#384760",
-                    "on-secondary": "#ffffff",
-                    "on-primary-container": "#000000",
-                    "primary-container": "#FFFF00",
-                    "secondary": "#4f5f79",
-                    "surface-container-high": "#ebe7e7",
-                    "surface-dim": "#dcd9d9",
-                    "primary-fixed": "#FFFF00",
-                    "surface-bright": "#fcf9f8",
-                    "inverse-surface": "#313030",
-                    "error-container": "#ffdad6",
-                    "on-secondary-fixed": "#0a1c32",
-                    "on-error": "#ffffff",
-                    "on-primary-fixed-variant": "#000000",
-                    "on-surface-variant": "#4f4634",
-                    "outline-variant": "#d3c5ad",
-                    "primary-fixed-dim": "#f8bd30",
-                    "error": "#ba1a1a",
-                    "on-tertiary-fixed": "#001f25",
-                    "on-secondary-container": "#53637d",
-                    "secondary-container": "#d0e0ff",
-                    "surface-container-low": "#f6f3f2",
-                    "secondary-fixed-dim": "#b7c7e5",
-                    "accent-teal": "#00A4A6",
-                    "border-strong": "#111111",
-                    "on-surface": "#1c1b1b",
-                    "on-tertiary-container": "#00606e",
-                    "on-tertiary-fixed-variant": "#004e5a",
-                    "border-muted": "#E5E7EB",
-                    "outline": "#817661",
-                    "tertiary-fixed-dim": "#1ad9f7",
-                    "surface-tint": "#795900",
-                    "inverse-on-surface": "#f3f0ef",
-                    "surface-container": "#f0edec",
-                    "tertiary-fixed": "#a5eeff",
-                    "destructive": "#EA4335",
-                    "surface-container-highest": "#e5e2e1",
-                    "surface": "#fcf9f8",
-                    "on-tertiary": "#ffffff",
-                    "surface-variant": "#e5e2e1",
-                    "on-error-container": "#93000a",
-                    "surface-container-lowest": "#ffffff",
-                    "background": "#fcf9f8",
-                    "primary": "#000000",
-                    "surface-subtle": "#F9FAFB",
-                    "secondary-fixed": "#d4e3ff"
+            colors: {
+              "brand-yellow": "#FFFF00",
+              "on-primary-fixed": "#261a00",
+              tertiary: "#006877",
+              "on-background": "#1c1b1b",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#f8bd30",
+              "tertiary-container": "#2ce0fe",
+              "on-secondary-fixed-variant": "#384760",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#000000",
+              "primary-container": "#FFFF00",
+              secondary: "#4f5f79",
+              "surface-container-high": "#ebe7e7",
+              "surface-dim": "#dcd9d9",
+              "primary-fixed": "#FFFF00",
+              "surface-bright": "#fcf9f8",
+              "inverse-surface": "#313030",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed": "#0a1c32",
+              "on-error": "#ffffff",
+              "on-primary-fixed-variant": "#000000",
+              "on-surface-variant": "#4f4634",
+              "outline-variant": "#d3c5ad",
+              "primary-fixed-dim": "#f8bd30",
+              error: "#ba1a1a",
+              "on-tertiary-fixed": "#001f25",
+              "on-secondary-container": "#53637d",
+              "secondary-container": "#d0e0ff",
+              "surface-container-low": "#f6f3f2",
+              "secondary-fixed-dim": "#b7c7e5",
+              "accent-teal": "#00A4A6",
+              "border-strong": "#111111",
+              "on-surface": "#1c1b1b",
+              "on-tertiary-container": "#00606e",
+              "on-tertiary-fixed-variant": "#004e5a",
+              "border-muted": "#E5E7EB",
+              outline: "#817661",
+              "tertiary-fixed-dim": "#1ad9f7",
+              "surface-tint": "#795900",
+              "inverse-on-surface": "#f3f0ef",
+              "surface-container": "#f0edec",
+              "tertiary-fixed": "#a5eeff",
+              destructive: "#EA4335",
+              "surface-container-highest": "#e5e2e1",
+              surface: "#fcf9f8",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e5e2e1",
+              "on-error-container": "#93000a",
+              "surface-container-lowest": "#ffffff",
+              background: "#fcf9f8",
+              primary: "#000000",
+              "surface-subtle": "#F9FAFB",
+              "secondary-fixed": "#d4e3ff",
             },
-            "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
             },
-            "spacing": {
-                    "margin-mobile": "16px",
-                    "container-max": "1200px",
-                    "base": "4px",
-                    "gutter": "24px",
-                    "margin-desktop": "40px"
+            spacing: {
+              "margin-mobile": "16px",
+              "container-max": "1200px",
+              base: "4px",
+              gutter: "24px",
+              "margin-desktop": "40px",
             },
-            "fontFamily": {
-                    "headline-lg-mobile": ["Geist"],
-                    "body-sm": ["Geist"],
-                    "headline-lg": ["Geist"],
-                    "body-lg": ["Geist"],
-                    "label-caps": ["JetBrains Mono"],
-                    "headline-md": ["Geist"],
-                    "code-md": ["JetBrains Mono"],
-                    "code-sm": ["JetBrains Mono"],
-                    "display": ["Geist"]
+            fontFamily: {
+              "headline-lg-mobile": ["Geist"],
+              "body-sm": ["Geist"],
+              "headline-lg": ["Geist"],
+              "body-lg": ["Geist"],
+              "label-caps": ["JetBrains Mono"],
+              "headline-md": ["Geist"],
+              "code-md": ["JetBrains Mono"],
+              "code-sm": ["JetBrains Mono"],
+              display: ["Geist"],
             },
-            "fontSize": {
-                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
-                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
-                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
-                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                    "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                    "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
-                    "code-md": ["14px", {"lineHeight": "1.6", "fontWeight": "450"}],
-                    "code-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "450"}],
-                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
-            }
+            fontSize: {
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "1.2", fontWeight: "600" },
+              ],
+              "body-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-lg": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+              "label-caps": [
+                "11px",
+                { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "600" },
+              ],
+              "headline-md": ["20px", { lineHeight: "1.4", fontWeight: "600" }],
+              "code-md": ["14px", { lineHeight: "1.6", fontWeight: "450" }],
+              "code-sm": ["12px", { lineHeight: "1.4", fontWeight: "450" }],
+              display: [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+            },
           },
         },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Geist", sans-serif;
+        -webkit-font-smoothing: antialiased;
       }
-    </script>
-<style>
-        body { font-family: 'Geist', sans-serif; -webkit-font-smoothing: antialiased; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .stat-card-shadow {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .custom-dashed {
-            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23E5E7EB' stroke-width='2' stroke-dasharray='6%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-        }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .stat-card-shadow {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .custom-dashed {
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23E5E7EB' stroke-width='2' stroke-dasharray='6%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+      }
     </style>
-</head>
-<body class="bg-background text-on-background">
-<!-- Sidebar Navigation -->
-<aside class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-low border-r border-border-muted flex flex-col py-base px-base transition-all duration-300 z-50">
-<div class="px-4 py-8 mb-8">
-<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Formy</h1>
-<p class="text-xs text-on-surface-variant font-medium uppercase tracking-widest mt-1">Form Builder</p>
-</div>
-<nav class="flex-1 space-y-2 px-2">
-<!-- Active State: Dashboard with brand-yellow -->
-<a class="flex items-center gap-3 px-4 py-3 text-black bg-brand-yellow rounded-xl font-body-lg text-body-lg transition-transform active:scale-[0.99] font-semibold" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-xl font-body-lg text-body-lg transition-colors duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="description">description</span>
-<span>Forms</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-xl font-body-lg text-body-lg transition-colors duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span>Settings</span>
-</a>
-</nav>
-<div class="mt-auto px-2 pb-6">
-<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-colors duration-200 cursor-pointer">
-<span class="material-symbols-outlined" data-icon="person">person</span>
-<span class="truncate font-body-sm text-body-sm">user@email.com</span>
-</div>
-</div>
-</aside>
-<!-- Top Bar -->
-<header class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface border-b border-border-muted flex items-center justify-end px-margin-desktop gap-gutter z-40">
-<div class="flex items-center gap-6">
-<button class="text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
-</button>
-<div class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden">
-<img class="h-full w-full object-cover" data-alt="A professional studio portrait of a modern software engineer in a bright, high-key setting. The aesthetic is clean and minimalist with a shallow depth of field. Soft, diffused lighting highlights friendly features, fitting a premium SaaS dashboard identity. Monochromatic background with subtle warm tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0lE7kycMEHfAyIQKt-lcQlO9S52BysKDs91cNis1VwSjEuSbsSCiC2UbwA4lzWkrLfIFSFBIBHiMch-ElhzvdRVO8BDlOtdgsh5esg3RONO-4A4bU2-riqBMGzVMR5iSkJt6uLrG4L5Cfji9ITcqH7zejJ9qcnT5tqbHV9hitrNaZwYRT57dkjhKYZW3j2ru7IxXka6jfTLOR40wjyOQPdiiwRUtk56seG42rtA8mhXozvh04eew4Eg"/>
-</div>
-<button class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors active:opacity-80">
-                Sign out
-            </button>
-</div>
-</header>
-<!-- Main Content Area -->
-<main class="ml-[240px] pt-16 min-h-screen">
-<div class="p-margin-desktop max-w-[1440px] mx-auto">
-<!-- Dashboard Header -->
-<div class="mb-10">
-<h2 class="font-headline-lg text-headline-lg text-on-surface">Overview</h2>
-<p class="text-on-surface-variant mt-2 font-body-lg text-body-lg">Welcome back. Here's what's happening with your forms today.</p>
-</div>
-<!-- Stats Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-10">
-<!-- Total Forms -->
-<div class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-brand-yellow rounded-lg">
-<span class="material-symbols-outlined text-black" data-icon="file_open">file_open</span>
-</div>
-<span class="text-xs font-label-caps text-on-surface-variant">+2 this month</span>
-</div>
-<p class="text-on-surface-variant font-body-sm text-body-sm">Total Forms</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">24</h3>
-</div>
-<!-- Submissions -->
-<div class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-brand-yellow rounded-lg">
-<span class="material-symbols-outlined text-black" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
-</div>
-<span class="text-xs font-label-caps text-accent-teal">8% growth</span>
-</div>
-<p class="text-on-surface-variant font-body-sm text-body-sm">Submissions</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">1,284</h3>
-</div>
-<!-- Last 30 Days -->
-<div class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-brand-yellow rounded-lg">
-<span class="material-symbols-outlined text-black" data-icon="inbox">inbox</span>
-</div>
-<span class="text-xs font-label-caps text-on-surface-variant">Active</span>
-</div>
-<p class="text-on-surface-variant font-body-sm text-body-sm">Last 30 Days</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">452</h3>
-</div>
-<!-- This Week -->
-<div class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-<div class="flex items-center justify-between mb-4">
-<div class="p-2 bg-brand-yellow rounded-lg">
-<span class="material-symbols-outlined text-black" data-icon="schedule">schedule</span>
-</div>
-<span class="text-xs font-label-caps text-destructive">Peak Hours</span>
-</div>
-<p class="text-on-surface-variant font-body-sm text-body-sm">This Week</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">89</h3>
-</div>
-</div>
-<!-- Dashboard Layout Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-<!-- Main Activity Column -->
-<div class="lg:col-span-8">
-<div class="bg-surface-container-lowest border border-border-muted rounded-xl overflow-hidden">
-<div class="px-6 py-5 border-b border-border-muted flex items-center justify-between">
-<h3 class="font-headline-md text-headline-md text-on-surface">Recent Activity</h3>
-<button class="text-on-surface font-body-sm text-body-sm font-semibold hover:underline">View all</button>
-</div>
-<div class="divide-y divide-border-muted">
-<!-- Activity Item 1 -->
-<div class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group">
-<div class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-secondary" data-icon="mark_as_unread">mark_as_unread</span>
-</div>
-<div class="flex-1 min-w-0">
-<p class="text-on-surface font-body-lg text-body-lg font-medium truncate">New submission on <span class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4">Contact Sales</span></p>
-<p class="text-on-surface-variant font-body-sm text-body-sm">From: alex.j@company.io</p>
-</div>
-<div class="text-right">
-<p class="text-on-surface font-code-sm text-code-sm">2m ago</p>
-</div>
-</div>
-<!-- Activity Item 2 -->
-<div class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group">
-<div class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-secondary" data-icon="edit_note">edit_note</span>
-</div>
-<div class="flex-1 min-w-0">
-<p class="text-on-surface font-body-lg text-body-lg font-medium truncate">Form updated: <span class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4">User Feedback 2024</span></p>
-<p class="text-on-surface-variant font-body-sm text-body-sm">Modified 3 fields in section 2</p>
-</div>
-<div class="text-right">
-<p class="text-on-surface font-code-sm text-code-sm">45m ago</p>
-</div>
-</div>
-<!-- Activity Item 3 -->
-<div class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group">
-<div class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-on-tertiary-container" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
-</div>
-<div class="flex-1 min-w-0">
-<p class="text-on-surface font-body-lg text-body-lg font-medium truncate">New submission on <span class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4">Beta Application</span></p>
-<p class="text-on-surface-variant font-body-sm text-body-sm">From: sarah.w@tech.co</p>
-</div>
-<div class="text-right">
-<p class="text-on-surface font-code-sm text-code-sm">2h ago</p>
-</div>
-</div>
-<!-- Activity Item 4 -->
-<div class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group">
-<div class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-destructive" data-icon="report">report</span>
-</div>
-<div class="flex-1 min-w-0">
-<p class="text-on-surface font-body-lg text-body-lg font-medium truncate">Spam detected on <span class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4">Global Survey</span></p>
-<p class="text-on-surface-variant font-body-sm text-body-sm">Blocked 1 submission from filtered IP</p>
-</div>
-<div class="text-right">
-<p class="text-on-surface font-code-sm text-code-sm">5h ago</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Sidebar Content Column -->
-<div class="lg:col-span-4 space-y-gutter">
-<!-- Quick Actions Card -->
-<div class="bg-surface-container-lowest border border-border-muted rounded-xl p-6">
-<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Quick Actions</h3>
-<div class="space-y-4">
-<button class="w-full h-24 custom-dashed rounded-xl flex flex-col items-center justify-center group hover:border-brand-yellow transition-all duration-300 hover:bg-brand-yellow/5">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-black mb-2" data-icon="add_circle">add_circle</span>
-<span class="text-on-surface-variant font-body-lg text-body-lg group-hover:text-black font-semibold">Create new form</span>
-</button>
-<button class="w-full h-24 custom-dashed rounded-xl flex flex-col items-center justify-center group hover:border-black transition-all duration-300 hover:bg-black/5">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-black mb-2" data-icon="view_list">view_list</span>
-<span class="text-on-surface-variant font-body-lg text-body-lg group-hover:text-black font-semibold">View all forms</span>
-</button>
-</div>
-</div>
-<!-- Upgrade / Banner Card -->
-<div class="relative rounded-xl overflow-hidden bg-on-background p-6 h-64 flex flex-col justify-end group">
-<div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity">
-<img class="w-full h-full object-cover" data-alt="Abstract cinematic composition of flowing liquid gold and sharp geometric obsidian structures. The lighting is dramatic and technical, with thin laser-like beams of light cutting through a dark, hazy atmosphere. Minimalist and high-end aesthetic that symbolizes premium data processing and power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC72-E7aSBO7n7AxaW0vBC3qxnuDxeW9O4bsClx__bl6LgjgowCseqPalZOehFMdtK2veY5N5v7k7ekf77G3EmR-aU6PnZdh8efgGC9LLh9y5l-LdSWCs05BJv1MIvnUC8GBnqzvJQBrO6F2vtx6x-B_VeMbXBpBdrlcIQxvUZekJaBRQcvBIV7_3K2XMIElKnvsWLQsdF_qpYR9nx-29dKkwe1vk7vvFRxyCTHp2b_4WltJhCVDwDAvw"/>
-</div>
-<div class="relative z-10">
-<h4 class="text-on-primary font-headline-md text-headline-md font-bold">Go Unlimited</h4>
-<p class="text-surface-variant font-body-sm text-body-sm mt-2 mb-4">Unlock advanced analytics, custom branding, and 50GB storage.</p>
-<button class="bg-brand-yellow text-black px-6 py-2 rounded-lg font-bold font-body-sm text-body-sm active:scale-95 transition-transform hover:bg-white transition-colors">
-                                Upgrade Now
-                            </button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<script>
-        // Simple micro-interaction for hover states
-        document.querySelectorAll('.stat-card-shadow').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-2px)';
-                card.style.transition = 'transform 0.2s ease-out';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-            });
+  </head>
+  <body class="bg-background text-on-background">
+    <!-- Sidebar Navigation -->
+    <aside
+      class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-low border-r border-border-muted flex flex-col py-base px-base transition-all duration-300 z-50"
+    >
+      <div class="px-4 py-8 mb-8">
+        <h1 class="font-headline-md text-headline-md font-bold text-on-surface">
+          Formy
+        </h1>
+        <p
+          class="text-xs text-on-surface-variant font-medium uppercase tracking-widest mt-1"
+        >
+          Form Builder
+        </p>
+      </div>
+      <nav class="flex-1 space-y-2 px-2">
+        <!-- Active State: Dashboard with brand-yellow -->
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-black bg-brand-yellow rounded-xl font-body-lg text-body-lg transition-transform active:scale-[0.99] font-semibold"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="dashboard"
+            >dashboard</span
+          >
+          <span>Dashboard</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-xl font-body-lg text-body-lg transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="description"
+            >description</span
+          >
+          <span>Forms</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-xl font-body-lg text-body-lg transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="settings"
+            >settings</span
+          >
+          <span>Settings</span>
+        </a>
+      </nav>
+      <div class="mt-auto px-2 pb-6">
+        <div
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-colors duration-200 cursor-pointer"
+        >
+          <span class="material-symbols-outlined" data-icon="person"
+            >person</span
+          >
+          <span class="truncate font-body-sm text-body-sm">user@email.com</span>
+        </div>
+      </div>
+    </aside>
+    <!-- Top Bar -->
+    <header
+      class="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface border-b border-border-muted flex items-center justify-end px-margin-desktop gap-gutter z-40"
+    >
+      <div class="flex items-center gap-6">
+        <button
+          class="text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2"
+        >
+          <span
+            class="material-symbols-outlined text-xl"
+            data-icon="notifications"
+            >notifications</span
+          >
+        </button>
+        <div
+          class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden"
+        >
+          <img
+            class="h-full w-full object-cover"
+            data-alt="A professional studio portrait of a modern software engineer in a bright, high-key setting. The aesthetic is clean and minimalist with a shallow depth of field. Soft, diffused lighting highlights friendly features, fitting a premium SaaS dashboard identity. Monochromatic background with subtle warm tones."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0lE7kycMEHfAyIQKt-lcQlO9S52BysKDs91cNis1VwSjEuSbsSCiC2UbwA4lzWkrLfIFSFBIBHiMch-ElhzvdRVO8BDlOtdgsh5esg3RONO-4A4bU2-riqBMGzVMR5iSkJt6uLrG4L5Cfji9ITcqH7zejJ9qcnT5tqbHV9hitrNaZwYRT57dkjhKYZW3j2ru7IxXka6jfTLOR40wjyOQPdiiwRUtk56seG42rtA8mhXozvh04eew4Eg"
+          />
+        </div>
+        <button
+          class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors active:opacity-80"
+        >
+          Sign out
+        </button>
+      </div>
+    </header>
+    <!-- Main Content Area -->
+    <main class="ml-[240px] pt-16 min-h-screen">
+      <div class="p-margin-desktop max-w-[1440px] mx-auto">
+        <!-- Dashboard Header -->
+        <div class="mb-10">
+          <h2 class="font-headline-lg text-headline-lg text-on-surface">
+            Overview
+          </h2>
+          <p class="text-on-surface-variant mt-2 font-body-lg text-body-lg">
+            Welcome back. Here's what's happening with your forms today.
+          </p>
+        </div>
+        <!-- Stats Grid -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-10"
+        >
+          <!-- Total Forms -->
+          <div
+            class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-brand-yellow rounded-lg">
+                <span
+                  class="material-symbols-outlined text-black"
+                  data-icon="file_open"
+                  >file_open</span
+                >
+              </div>
+              <span class="text-xs font-label-caps text-on-surface-variant"
+                >+2 this month</span
+              >
+            </div>
+            <p class="text-on-surface-variant font-body-sm text-body-sm">
+              Total Forms
+            </p>
+            <h3 class="text-3xl font-bold text-on-surface mt-1">24</h3>
+          </div>
+          <!-- Submissions -->
+          <div
+            class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-brand-yellow rounded-lg">
+                <span
+                  class="material-symbols-outlined text-black"
+                  data-icon="send"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >send</span
+                >
+              </div>
+              <span class="text-xs font-label-caps text-accent-teal"
+                >8% growth</span
+              >
+            </div>
+            <p class="text-on-surface-variant font-body-sm text-body-sm">
+              Submissions
+            </p>
+            <h3 class="text-3xl font-bold text-on-surface mt-1">1,284</h3>
+          </div>
+          <!-- Last 30 Days -->
+          <div
+            class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-brand-yellow rounded-lg">
+                <span
+                  class="material-symbols-outlined text-black"
+                  data-icon="inbox"
+                  >inbox</span
+                >
+              </div>
+              <span class="text-xs font-label-caps text-on-surface-variant"
+                >Active</span
+              >
+            </div>
+            <p class="text-on-surface-variant font-body-sm text-body-sm">
+              Last 30 Days
+            </p>
+            <h3 class="text-3xl font-bold text-on-surface mt-1">452</h3>
+          </div>
+          <!-- This Week -->
+          <div
+            class="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-2 bg-brand-yellow rounded-lg">
+                <span
+                  class="material-symbols-outlined text-black"
+                  data-icon="schedule"
+                  >schedule</span
+                >
+              </div>
+              <span class="text-xs font-label-caps text-destructive"
+                >Peak Hours</span
+              >
+            </div>
+            <p class="text-on-surface-variant font-body-sm text-body-sm">
+              This Week
+            </p>
+            <h3 class="text-3xl font-bold text-on-surface mt-1">89</h3>
+          </div>
+        </div>
+        <!-- Dashboard Layout Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+          <!-- Main Activity Column -->
+          <div class="lg:col-span-8">
+            <div
+              class="bg-surface-container-lowest border border-border-muted rounded-xl overflow-hidden"
+            >
+              <div
+                class="px-6 py-5 border-b border-border-muted flex items-center justify-between"
+              >
+                <h3 class="font-headline-md text-headline-md text-on-surface">
+                  Recent Activity
+                </h3>
+                <button
+                  class="text-on-surface font-body-sm text-body-sm font-semibold hover:underline"
+                >
+                  View all
+                </button>
+              </div>
+              <div class="divide-y divide-border-muted">
+                <!-- Activity Item 1 -->
+                <div
+                  class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group"
+                >
+                  <div
+                    class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0"
+                  >
+                    <span
+                      class="material-symbols-outlined text-secondary"
+                      data-icon="mark_as_unread"
+                      >mark_as_unread</span
+                    >
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-on-surface font-body-lg text-body-lg font-medium truncate"
+                    >
+                      New submission on
+                      <span
+                        class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4"
+                        >Contact Sales</span
+                      >
+                    </p>
+                    <p
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                    >
+                      From: alex.j@company.io
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-on-surface font-code-sm text-code-sm">
+                      2m ago
+                    </p>
+                  </div>
+                </div>
+                <!-- Activity Item 2 -->
+                <div
+                  class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group"
+                >
+                  <div
+                    class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0"
+                  >
+                    <span
+                      class="material-symbols-outlined text-secondary"
+                      data-icon="edit_note"
+                      >edit_note</span
+                    >
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-on-surface font-body-lg text-body-lg font-medium truncate"
+                    >
+                      Form updated:
+                      <span
+                        class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4"
+                        >User Feedback 2024</span
+                      >
+                    </p>
+                    <p
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                    >
+                      Modified 3 fields in section 2
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-on-surface font-code-sm text-code-sm">
+                      45m ago
+                    </p>
+                  </div>
+                </div>
+                <!-- Activity Item 3 -->
+                <div
+                  class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group"
+                >
+                  <div
+                    class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0"
+                  >
+                    <span
+                      class="material-symbols-outlined text-on-tertiary-container"
+                      data-icon="send"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >send</span
+                    >
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-on-surface font-body-lg text-body-lg font-medium truncate"
+                    >
+                      New submission on
+                      <span
+                        class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4"
+                        >Beta Application</span
+                      >
+                    </p>
+                    <p
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                    >
+                      From: sarah.w@tech.co
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-on-surface font-code-sm text-code-sm">
+                      2h ago
+                    </p>
+                  </div>
+                </div>
+                <!-- Activity Item 4 -->
+                <div
+                  class="px-6 py-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group"
+                >
+                  <div
+                    class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center shrink-0"
+                  >
+                    <span
+                      class="material-symbols-outlined text-destructive"
+                      data-icon="report"
+                      >report</span
+                    >
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-on-surface font-body-lg text-body-lg font-medium truncate"
+                    >
+                      Spam detected on
+                      <span
+                        class="font-semibold underline decoration-brand-yellow decoration-2 underline-offset-4"
+                        >Global Survey</span
+                      >
+                    </p>
+                    <p
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                    >
+                      Blocked 1 submission from filtered IP
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-on-surface font-code-sm text-code-sm">
+                      5h ago
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Sidebar Content Column -->
+          <div class="lg:col-span-4 space-y-gutter">
+            <!-- Quick Actions Card -->
+            <div
+              class="bg-surface-container-lowest border border-border-muted rounded-xl p-6"
+            >
+              <h3
+                class="font-headline-md text-headline-md text-on-surface mb-6"
+              >
+                Quick Actions
+              </h3>
+              <div class="space-y-4">
+                <button
+                  class="w-full h-24 custom-dashed rounded-xl flex flex-col items-center justify-center group hover:border-brand-yellow transition-all duration-300 hover:bg-brand-yellow/5"
+                >
+                  <span
+                    class="material-symbols-outlined text-on-surface-variant group-hover:text-black mb-2"
+                    data-icon="add_circle"
+                    >add_circle</span
+                  >
+                  <span
+                    class="text-on-surface-variant font-body-lg text-body-lg group-hover:text-black font-semibold"
+                    >Create new form</span
+                  >
+                </button>
+                <button
+                  class="w-full h-24 custom-dashed rounded-xl flex flex-col items-center justify-center group hover:border-black transition-all duration-300 hover:bg-black/5"
+                >
+                  <span
+                    class="material-symbols-outlined text-on-surface-variant group-hover:text-black mb-2"
+                    data-icon="view_list"
+                    >view_list</span
+                  >
+                  <span
+                    class="text-on-surface-variant font-body-lg text-body-lg group-hover:text-black font-semibold"
+                    >View all forms</span
+                  >
+                </button>
+              </div>
+            </div>
+            <!-- Upgrade / Banner Card -->
+            <div
+              class="relative rounded-xl overflow-hidden bg-on-background p-6 h-64 flex flex-col justify-end group"
+            >
+              <div
+                class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity"
+              >
+                <img
+                  class="w-full h-full object-cover"
+                  data-alt="Abstract cinematic composition of flowing liquid gold and sharp geometric obsidian structures. The lighting is dramatic and technical, with thin laser-like beams of light cutting through a dark, hazy atmosphere. Minimalist and high-end aesthetic that symbolizes premium data processing and power."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuC72-E7aSBO7n7AxaW0vBC3qxnuDxeW9O4bsClx__bl6LgjgowCseqPalZOehFMdtK2veY5N5v7k7ekf77G3EmR-aU6PnZdh8efgGC9LLh9y5l-LdSWCs05BJv1MIvnUC8GBnqzvJQBrO6F2vtx6x-B_VeMbXBpBdrlcIQxvUZekJaBRQcvBIV7_3K2XMIElKnvsWLQsdF_qpYR9nx-29dKkwe1vk7vvFRxyCTHp2b_4WltJhCVDwDAvw"
+                />
+              </div>
+              <div class="relative z-10">
+                <h4
+                  class="text-on-primary font-headline-md text-headline-md font-bold"
+                >
+                  Go Unlimited
+                </h4>
+                <p
+                  class="text-surface-variant font-body-sm text-body-sm mt-2 mb-4"
+                >
+                  Unlock advanced analytics, custom branding, and 50GB storage.
+                </p>
+                <button
+                  class="bg-brand-yellow text-black px-6 py-2 rounded-lg font-bold font-body-sm text-body-sm active:scale-95 transition-transform hover:bg-white transition-colors"
+                >
+                  Upgrade Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      // Simple micro-interaction for hover states
+      document.querySelectorAll(".stat-card-shadow").forEach((card) => {
+        card.addEventListener("mouseenter", () => {
+          card.style.transform = "translateY(-2px)";
+          card.style.transition = "transform 0.2s ease-out";
         });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "translateY(0)";
+        });
+      });
     </script>
-</body></html>
+  </body>
+</html>

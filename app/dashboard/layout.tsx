@@ -3,24 +3,24 @@ import { prisma } from "@/app/lib/prisma";
 import { DashboardShell } from "@/components/dashboard/DashboardShell";
 
 export default async function DashboardLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    const session = await auth();
+  const session = await auth();
 
-    const forms = session?.userId
-        ? await prisma.form.findMany({
-              where: { createdById: session.userId },
-              select: { id: true, title: true },
-              orderBy: { id: "desc" },
-              take: 50,
-          })
-        : [];
+  const forms = session?.userId
+    ? await prisma.form.findMany({
+        where: { createdById: session.userId },
+        select: { id: true, title: true },
+        orderBy: { id: "desc" },
+        take: 50,
+      })
+    : [];
 
-    return (
-        <DashboardShell user={session ?? undefined} forms={forms}>
-            {children}
-        </DashboardShell>
-    );
+  return (
+    <DashboardShell user={session ?? undefined} forms={forms}>
+      {children}
+    </DashboardShell>
+  );
 }
