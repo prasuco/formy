@@ -4,7 +4,7 @@ import { useTransition, useMemo } from "react";
 import { Tabs, Form } from "antd";
 import { ArrowLeft, BarChart3, Eye, Code2, Edit3, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useQueryState, parseAsInteger, parseAsString } from "nuqs";
+import { useQueryState, parseAsInteger, parseAsString, parseAsStringLiteral } from "nuqs";
 import { updateForm, deleteForm, deleteSubmission } from "@/app/actions/forms";
 import { FormDetailsTab } from "@/components/dashboard/tabs/FormDetailsTab";
 import { FormSubmissionsTab } from "@/components/dashboard/tabs/FormSubmissionsTab";
@@ -60,6 +60,12 @@ export function FormTabs({
     const [pending, startTransition] = useTransition();
     const [editForm] = Form.useForm();
 
+    const [tab, setTab] = useQueryState(
+        "tab",
+        parseAsStringLiteral(["details", "submissions", "integration", "settings"] as const)
+            .withDefault("details")
+            .withOptions({ shallow: false, startTransition })
+    );
     const [page, setPage] = useQueryState(
         "page",
         parseAsInteger.withDefault(1).withOptions({ shallow: false, startTransition })
@@ -210,7 +216,15 @@ export function FormTabs({
             </div>
 
             <Tabs
-                defaultActiveKey="details"
+                activeKey={tab}
+                onChange={(key) => {
+                    setTab(key as typeof tab);
+                    if (key !== "submissions") {
+                        setPage(1);
+                        setSearchInput(null);
+                    }
+                }}
+                tabPosition="left"
                 items={[
                     {
                         key: "details",

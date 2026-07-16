@@ -10,7 +10,7 @@ export default async function FormsPage() {
     const forms = await prisma.form.findMany({
         where: { createdById: session.userId },
         include: { _count: { select: { submissions: true } } },
-        orderBy: { id: "desc" },
+        orderBy: { createdAt: "desc" },
     });
 
     const data = forms.map((f) => ({
@@ -18,18 +18,8 @@ export default async function FormsPage() {
         title: f.title,
         slug: f.slug,
         submissions: f._count.submissions,
+        createdAt: f.createdAt.toISOString(),
     }));
 
-    return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Forms</h2>
-                    <p className="mt-1 text-gray-500">Manage your forms.</p>
-                </div>
-            </div>
-
-            <FormsList data={data} />
-        </div>
-    );
+    return <FormsList data={data} />;
 }

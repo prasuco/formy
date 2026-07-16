@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { LayoutDashboard, FileText, Settings, Menu as MenuIcon, LogOut, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { LayoutDashboard, FileText, Activity, Settings, Menu as MenuIcon, LogOut, User, Command } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/app/actions/auth";
-import { Button } from "@/components/ui/button";
+import { CommandPalette } from "@/components/dashboard/CommandPalette";
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -15,128 +15,133 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-const menuItems = [
-    {
-        key: "/dashboard",
-        icon: <LayoutDashboard size={18} />,
-        label: <Link href="/dashboard">Dashboard</Link>,
-    },
-    {
-        key: "/dashboard/forms",
-        icon: <FileText size={18} />,
-        label: <Link href="/dashboard/forms">Forms</Link>,
-    },
-    {
-        key: "/dashboard/settings",
-        icon: <Settings size={18} />,
-        label: <Link href="/dashboard/settings">Settings</Link>,
-    },
+interface FormItem {
+    id: string;
+    title: string;
+}
+
+const navItems = [
+    { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
+    { href: "/dashboard/forms", icon: FileText, label: "Forms" },
+    { href: "/dashboard/activity", icon: Activity, label: "Activity" },
+    { href: "/dashboard/settings", icon: Settings, label: "Settings" },
 ];
 
 export function DashboardShell({
     children,
     user,
+    forms,
 }: {
     children: React.ReactNode;
     user?: { email?: string | null };
+    forms: FormItem[];
 }) {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [paletteOpen, setPaletteOpen] = useState(false);
     const pathname = usePathname();
+
+    useEffect(() => {
+        const handler = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+                e.preventDefault();
+                setPaletteOpen(true);
+            }
+        };
+        document.addEventListener("keydown", handler);
+        return () => document.removeEventListener("keydown", handler);
+    }, []);
 
     return (
         <div className="flex min-h-screen bg-background">
             {mobileOpen && (
-                <div
-                    className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-                    onClick={() => setMobileOpen(false)}
-                />
+                <div className="fixed inset-0 z-40 bg-black/30 lg:hidden" onClick={() => setMobileOpen(false)} />
             )}
 
-            <aside
-                className={`fixed left-0 top-0 z-50 h-screen w-[240px] bg-surface-container-low border-r border-border-muted flex flex-col transition-transform duration-300 ${
-                    mobileOpen ? "translate-x-0" : "-translate-x-full"
-                } lg:translate-x-0`}
-            >
-                <div className="px-6 py-8 mb-6">
-                    <Image src="/logo.png" alt="Formy" width={32} height={32} className="h-8 w-auto" />
-                    <p className="mt-2 text-[10px] font-mono text-on-surface-variant uppercase tracking-wider opacity-70">Form Builder</p>
+            <aside className={`fixed left-0 top-0 z-50 h-screen w-40 bg-surface-container-low border-r border-border-muted flex flex-col transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
+                <div className="px-4 py-5 border-b border-border-muted">
+                    <Image src="/logo.png" alt="Formy" width={24} height={24} className="h-6 w-auto" />
                 </div>
 
-                <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
-                    {menuItems.map((item) => {
-                        const isActive = pathname === item.key;
+                <nav className="flex-1 px-2 py-3 space-y-0.5">
+                    {navItems.map((item) => {
+                        const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+                        const Icon = item.icon;
                         return (
-                            <div
-                                key={item.key}
-                                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 ${
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
                                     isActive
-                                        ? "bg-primary text-primary-foreground font-semibold shadow-sm"
+                                        ? "bg-primary text-primary-foreground font-medium"
                                         : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
                                 }`}
                             >
-                                {item.icon}
+                                <Icon size={16} />
                                 {item.label}
-                            </div>
+                            </Link>
                         );
                     })}
                 </nav>
 
-                <div className="p-3 border-t border-border-muted">
-                    <div className="flex items-center gap-3 px-3 py-2.5 text-sm text-on-surface-variant rounded-xl hover:bg-surface-container-high transition-colors">
-                        <User size={16} />
-                        <span className="truncate">{user?.email}</span>
-                    </div>
+                <div className="px-2 py-2 border-t border-border-muted">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger
+                            render={<button type="button" className="flex w-full items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" />}
+                        >
+                            <Avatar size="sm">
+                                <AvatarFallback className="bg-primary text-primary-foreground text-[10px]">
+                                    {user?.email?.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                            </Avatar>
+                            <span className="truncate text-xs">{user?.email}</span>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" className="w-36 ml-2">
+                            <DropdownMenuItem>
+                                <form action={logout} className="w-full">
+                                    <button type="submit" className="flex w-full items-center gap-1.5 text-sm">
+                                        <LogOut size={14} />
+                                        Sign out
+                                    </button>
+                                </form>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </aside>
 
-            <div className="flex-1 flex flex-col lg:ml-[240px]">
-                <header className="flex h-16 items-center justify-between bg-surface px-6 border-b border-border-muted shrink-0">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setMobileOpen(!mobileOpen)}
-                        className="lg:hidden text-on-surface-variant"
-                    >
-                        <MenuIcon size={20} />
-                    </Button>
-
-                    <div className="ml-auto flex items-center gap-4">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger
-                                render={<button type="button" className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm hover:bg-surface-container-high transition-colors" />}
-                            >
-                                <Avatar size="sm">
-                                    <AvatarFallback className="bg-primary text-primary-foreground">
-                                        {user?.email?.charAt(0).toUpperCase()}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <span className="hidden text-sm sm:inline text-on-surface-variant">
-                                    {user?.email}
-                                </span>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                    <form action={logout} className="w-full">
-                                        <button
-                                            type="submit"
-                                            className="flex w-full items-center gap-1.5 text-left text-sm"
-                                        >
-                                            <LogOut size={14} />
-                                            Sign out
-                                        </button>
-                                    </form>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+            <div className="flex-1 flex flex-col lg:ml-40">
+                <header className="flex h-14 items-center justify-between bg-surface-container-lowest border-b border-border-muted px-4 lg:px-6 shrink-0">
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => setMobileOpen(!mobileOpen)}
+                            className="lg:hidden text-on-surface-variant p-1"
+                        >
+                            <MenuIcon size={18} />
+                        </button>
+                        <button
+                            onClick={() => setPaletteOpen(true)}
+                            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-high text-xs text-on-surface-variant hover:text-on-surface transition-colors"
+                        >
+                            <Command size={14} />
+                            <span>Cmd+K</span>
+                        </button>
                     </div>
+                    <button
+                        onClick={() => setPaletteOpen(true)}
+                        className="sm:hidden text-on-surface-variant p-1"
+                    >
+                        <Command size={18} />
+                    </button>
                 </header>
 
-                <main className="flex-1 p-6 lg:p-10 overflow-y-auto">
-                    <div className="max-w-[1440px] mx-auto">
+                <main className="flex-1 p-6 lg:p-8 overflow-y-auto">
+                    <div className="w-full mx-auto">
                         {children}
                     </div>
                 </main>
             </div>
+
+            <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} forms={forms} />
         </div>
     );
 }

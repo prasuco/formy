@@ -66,7 +66,7 @@ export function FormSubmissionsTab({
                 </div>
             </div>
 
-            <div className="bg-surface-container-lowest border border-border-muted rounded-xl overflow-hidden stat-card-shadow">
+            <div className="bg-surface-container-lowest border border-border-muted rounded-xl overflow-hidden">
                 <Table
                     dataSource={submissions}
                     rowKey="id"

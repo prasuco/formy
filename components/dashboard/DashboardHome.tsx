@@ -1,151 +1,163 @@
 "use client";
 
 import { useState } from "react";
-import { Statistic } from "antd";
-import {
-    FileText,
-    Send,
-    Clock,
-    Inbox,
-    Plus,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
+import { FileText, Send, Plus, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import { CreateFormDialog } from "@/components/dashboard/CreateFormDialog";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+
+interface FormItem {
+    id: string;
+    title: string;
+    slug: string;
+    submissions: number;
+    createdAt: string;
+}
+
+interface ActivityItem {
+    id: string;
+    formTitle: string;
+    formId: string;
+    createdAt: string;
+}
 
 export function DashboardHome({
     totalForms,
     totalSubmissions,
     recentSubmissions,
     weeklySubmissions,
-    hasForms,
+    recentForms,
+    recentActivity,
 }: {
     totalForms: number;
     totalSubmissions: number;
     recentSubmissions: number;
     weeklySubmissions: number;
-    hasForms: boolean;
+    recentForms: FormItem[];
+    recentActivity: ActivityItem[];
 }) {
     const [open, setOpen] = useState(false);
-    const router = useRouter();
+    const hasForms = totalForms > 0;
 
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-2xl font-semibold text-on-surface tracking-tight">Overview</h2>
-                <p className="mt-1 text-base text-on-surface-variant">
-                    Welcome back. Here&apos;s what&apos;s happening with your forms today.
+                <h1 className="text-xl font-semibold text-on-surface tracking-tight">Overview</h1>
+                <p className="text-sm text-on-surface-variant mt-1">
+                    {hasForms
+                        ? `${totalSubmissions} total submissions across ${totalForms} forms`
+                        : "Create your first form to get started"}
                 </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-2 bg-primary rounded-lg">
-                            <FileText size={18} className="text-primary-foreground" />
-                        </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                    { label: "Total Forms", value: totalForms, icon: FileText },
+                    { label: "Submissions", value: totalSubmissions, icon: Send },
+                    { label: "Last 30 Days", value: recentSubmissions, icon: Send },
+                    { label: "This Week", value: weeklySubmissions, icon: Send },
+                ].map((stat) => (
+                    <div key={stat.label} className="bg-surface-container-lowest border border-border-muted rounded-lg p-5">
+                        <p className="text-xs text-on-surface-variant mb-1">{stat.label}</p>
+                        <p className="text-2xl font-bold text-on-surface">{stat.value}</p>
                     </div>
-                    <p className="text-sm text-on-surface-variant">Total Forms</p>
-                    <p className="text-3xl font-bold text-on-surface mt-1">{totalForms}</p>
-                </div>
-                <div className="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-2 bg-primary rounded-lg">
-                            <Send size={18} className="text-primary-foreground" />
-                        </div>
-                    </div>
-                    <p className="text-sm text-on-surface-variant">Submissions</p>
-                    <p className="text-3xl font-bold text-on-surface mt-1">{totalSubmissions}</p>
-                </div>
-                <div className="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-2 bg-primary rounded-lg">
-                            <Inbox size={18} className="text-primary-foreground" />
-                        </div>
-                    </div>
-                    <p className="text-sm text-on-surface-variant">Last 30 Days</p>
-                    <p className="text-3xl font-bold text-on-surface mt-1">{recentSubmissions}</p>
-                </div>
-                <div className="bg-surface-container-lowest p-6 border border-border-muted rounded-xl stat-card-shadow">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-2 bg-primary rounded-lg">
-                            <Clock size={18} className="text-primary-foreground" />
-                        </div>
-                    </div>
-                    <p className="text-sm text-on-surface-variant">This Week</p>
-                    <p className="text-3xl font-bold text-on-surface mt-1">{weeklySubmissions}</p>
-                </div>
+                ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                    {hasForms ? (
-                        <div className="bg-surface-container-lowest border border-border-muted rounded-xl stat-card-shadow overflow-hidden">
-                            <div className="px-6 py-5 border-b border-border-muted">
-                                <h3 className="text-lg font-semibold text-on-surface">Recent Activity</h3>
-                            </div>
-                            <div className="flex flex-col items-center justify-center py-16 text-on-surface-variant">
-                                <Inbox size={48} strokeWidth={1} />
-                                <p className="mt-4 text-sm font-medium text-on-surface">
-                                    {recentSubmissions > 0
-                                        ? `${recentSubmissions} submissions in the last 30 days`
-                                        : "No recent activity"}
-                                </p>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="bg-surface-container-lowest border border-border-muted rounded-xl stat-card-shadow overflow-hidden">
-                            <div className="flex flex-col items-center justify-center py-16 px-6">
-                                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-                                    <FileText size={40} className="text-primary" />
-                                </div>
-                                <h3 className="text-lg font-semibold text-on-surface">
-                                    Create your first form
-                                </h3>
-                                <p className="mt-1 max-w-sm text-center text-sm text-on-surface-variant leading-relaxed">
-                                    Build a form in seconds. Collect submissions, review
-                                    responses, and export data — all from one place.
-                                </p>
-                                <Button
-                                    size="lg"
-                                    className="mt-6"
-                                    onClick={() => setOpen(true)}
-                                >
-                                    <Plus size={18} />
-                                    Create Form
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                <div className="space-y-6">
-                    <div className="bg-surface-container-lowest border border-border-muted rounded-xl p-6 stat-card-shadow">
-                        <h3 className="text-lg font-semibold text-on-surface mb-6">Quick Actions</h3>
-                        <div className="space-y-4">
-                            <button
-                                onClick={() => setOpen(true)}
-                                className="w-full h-24 rounded-xl border-2 border-dashed border-border-muted flex flex-col items-center justify-center gap-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-on-surface-variant hover:text-on-surface"
-                            >
-                                <Plus size={24} />
-                                <span className="text-sm font-semibold">Create new form</span>
-                            </button>
-                            {hasForms && (
-                                <button
-                                    onClick={() => router.push("/dashboard/forms")}
-                                    className="w-full h-24 rounded-xl border-2 border-dashed border-border-muted flex flex-col items-center justify-center gap-2 hover:border-on-surface hover:bg-black/5 transition-all duration-300 text-on-surface-variant hover:text-on-surface"
-                                >
-                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
-                                    <span className="text-sm font-semibold">View all forms</span>
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
+            <div className="flex items-center gap-4">
+                <Button onClick={() => setOpen(true)}>
+                    <Plus size={16} />
+                    New form
+                </Button>
+                {hasForms && (
+                    <Link
+                        href="/dashboard/forms"
+                        className="inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-background hover:bg-muted hover:text-foreground h-8 gap-1.5 px-2.5 text-sm font-medium whitespace-nowrap transition-all"
+                    >
+                        <FileText size={16} />
+                        View all forms
+                    </Link>
+                )}
             </div>
 
             <CreateFormDialog open={open} onClose={() => setOpen(false)} />
+
+            {hasForms && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="bg-surface-container-lowest border border-border-muted rounded-lg p-5">
+                        <h2 className="text-sm font-semibold text-on-surface mb-4">Recent forms</h2>
+                        {recentForms.length === 0 ? (
+                            <p className="text-sm text-on-surface-variant">No forms yet</p>
+                        ) : (
+                            <div className="space-y-3">
+                                {recentForms.map((f) => (
+                                    <Link
+                                        key={f.id}
+                                        href={`/dashboard/forms/${f.id}`}
+                                        className="flex items-center justify-between group"
+                                    >
+                                        <div>
+                                            <p className="text-sm font-medium text-on-surface group-hover:text-primary transition-colors">
+                                                {f.title}
+                                            </p>
+                                            <p className="text-xs text-on-surface-variant mt-0.5">
+                                                {f.submissions} submission{f.submissions !== 1 ? "s" : ""}
+                                            </p>
+                                        </div>
+                                        <ArrowUpRight size={14} className="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="bg-surface-container-lowest border border-border-muted rounded-lg p-5">
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-sm font-semibold text-on-surface">Recent activity</h2>
+                            <Link
+                                href="/dashboard/activity"
+                                className="text-xs text-primary hover:underline"
+                            >
+                                View all
+                            </Link>
+                        </div>
+                        {recentActivity.length === 0 ? (
+                            <p className="text-sm text-on-surface-variant">No activity yet</p>
+                        ) : (
+                            <div className="space-y-3">
+                                {recentActivity.map((a) => (
+                                    <Link
+                                        key={a.id}
+                                        href={`/dashboard/forms/${a.formId}/submissions/${a.id}`}
+                                        className="flex items-center justify-between group"
+                                    >
+                                        <div className="min-w-0">
+                                            <p className="text-sm text-on-surface truncate group-hover:text-primary transition-colors">
+                                                New submission on {a.formTitle}
+                                            </p>
+                                            <p className="text-xs text-on-surface-variant mt-0.5">
+                                                {timeAgo(a.createdAt)}
+                                            </p>
+                                        </div>
+                                        <ArrowUpRight size={14} className="text-on-surface-variant shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
+}
+
+function timeAgo(dateStr: string): string {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return "just now";
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    return `${days}d ago`;
 }

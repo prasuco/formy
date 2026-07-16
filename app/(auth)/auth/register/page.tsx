@@ -11,69 +11,51 @@ export default async function RegisterPage({
     return (
         <>
             <div className="mb-8">
-                <h1 className="font-heading text-2xl font-semibold text-on-surface tracking-tight">Create your account</h1>
-                <p className="text-sm text-on-surface-variant mt-1">Start building forms in seconds</p>
+                <h1 className="text-xl font-semibold text-on-surface tracking-tight">Create an account</h1>
+                <p className="text-sm text-on-surface-variant mt-1">Get your first form endpoint in seconds</p>
             </div>
 
             {params.error ? (
-                <div className="mb-6 rounded-lg bg-error-container/10 border border-error/20 px-4 py-3 flex items-center gap-3">
-                    <span className="text-destructive text-sm font-bold">!</span>
-                    <p className="text-sm font-medium text-on-error-container">{params.error}</p>
+                <div className="mb-6 rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3">
+                    <p className="text-sm text-destructive">{params.error}</p>
                 </div>
             ) : null}
 
             <form action={register} className="space-y-5">
                 <div className="space-y-2">
-                    <label
-                        htmlFor="email"
-                        className="label-caps block text-on-surface-variant"
-                    >
-                        Email Address
-                    </label>
+                    <label htmlFor="email">Email</label>
                     <input
                         id="email"
                         name="email"
                         type="email"
                         required
-                        className="mt-1 block w-full rounded-lg border border-border-muted bg-white px-4 py-3 text-on-surface outline-none transition-all focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-outline-variant"
                         placeholder="name@company.com"
+                        className="block w-full rounded-lg border border-border-muted bg-white px-4 py-2.5 text-sm text-on-surface outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     />
                 </div>
-
                 <div className="space-y-2">
-                    <label
-                        htmlFor="password"
-                        className="label-caps block text-on-surface-variant"
-                    >
-                        Password
-                    </label>
+                    <label htmlFor="password">Password</label>
                     <input
                         id="password"
                         name="password"
                         type="password"
                         required
                         minLength={8}
-                        className="mt-1 block w-full rounded-lg border border-border-muted bg-white px-4 py-3 text-on-surface outline-none transition-all focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-outline-variant"
                         placeholder="Min. 8 characters"
+                        className="block w-full rounded-lg border border-border-muted bg-white px-4 py-2.5 text-sm text-on-surface outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     />
                 </div>
-
-                <Button type="submit" className="w-full font-semibold">
+                <Button type="submit" className="w-full">
                     Create account
                 </Button>
             </form>
 
-            <div className="mt-8 pt-6 border-t border-border-muted text-center">
-                <p className="text-sm text-on-surface-variant">
-                    Already have an account?{" "}
-                    <a
-                        href="/auth"
-                        className="text-on-surface font-semibold hover:underline ml-1"
-                    >
-                        Sign in
-                    </a>
-                </p>
-            </div>
+            <p className="mt-8 text-center text-sm text-on-surface-variant">
+                Already have an account?{" "}
+                <a href="/auth" className="text-on-surface font-semibold hover:underline">
+                    Sign in
+                </a>
+            </p>
         </>
     );
 }

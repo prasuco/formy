@@ -18,9 +18,10 @@ model User {
 model Form {
   id String @id @default(cuid())
 
-  title String
-  slug  String @unique
+  title     String
+  slug      String   @unique
   webhookUrl String?
+  createdAt DateTime @default(now())
 
   submissions Submission[]
   createdBy   User         @relation(fields: [createdById], references: [id])
